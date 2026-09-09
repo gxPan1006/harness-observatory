@@ -26,6 +26,7 @@ import {
   X,
 } from "lucide-react";
 import "./style.css";
+import {useAccount} from "./useAccount";
 
 type Item = {
   id: string;
@@ -139,7 +140,7 @@ const INITIAL = (() => {
     return EMPTY;
   }
 })();
-const INITIAL_VISIT = INITIAL.lastVisit;
+
 const fmt = (d: string | null, full = false) =>
   d
     ? new Intl.DateTimeFormat("zh-CN", {
@@ -181,8 +182,11 @@ export default function App() {
     };
   }, []);
   const [route, setRoute] = useState(location.hash.slice(1) || "today");
-  const [personal, setPersonal] = useState<Personal>(INITIAL),
-    [storageError, setStorageError] = useState(false);
+  const {personal,setPersonal,user,status:accountStatus,login,logout,retry:retryAccount}=useAccount();
+  const [legacyImported,setLegacyImported]=useState(false);
+  const visitRef=useRef<{id:string;value:string}|null>(null);
+  if(user && visitRef.current?.id!==user.id)visitRef.current={id:user.id,value:personal.lastVisit};
+  const INITIAL_VISIT=user?visitRef.current?.value||"":"";
   const [query, setQuery] = useState(""),
     [org, setOrg] = useState("all"),
     [kind, setKind] = useState("all"),
@@ -226,16 +230,8 @@ export default function App() {
     return () => c.abort();
   }, [retry]);
   useEffect(() => {
-    try {
-      localStorage.setItem(STORE, JSON.stringify(personal));
-    } catch {
-      setStorageError(true);
-    }
-  }, [personal]);
-  useEffect(() => {
-    if (feed)
-      setPersonal((p) => ({ ...p, lastVisit: new Date().toISOString() }));
-  }, [!!feed]);
+    if (feed && user) setPersonal((p) => ({...p,lastVisit:new Date().toISOString()}));
+  }, [!!feed,user?.id,setPersonal]);
   useEffect(() => {
     if (toast) {
       const timer = setTimeout(() => setToast(""), 2600);
@@ -299,8 +295,9 @@ export default function App() {
   };
   const importData = async (file?: File) => {
     if (!file) return;
+    if (!user) {login();return;}
     try {
-      if (file.size > 2_000_000) throw Error();
+      if (file.size > 200_000) throw Error();
       const d = JSON.parse(await file.text());
       if (
         !["read", "saved", "following"].every(
@@ -711,11 +708,11 @@ export default function App() {
           </a>
         </header>
         <main id="main-content" tabIndex={-1}>
-          {storageError && (
-            <div className="notice">
-              浏览器存储不可用，阅读记录暂不能保存。你仍可以导出记录。
-            </div>
-          )}
+          <section className="account-bar" aria-label="个人账号">
+            {user ? <><div><strong>{user.name}</strong><span>{user.email} · 仅你可见</span></div><button onClick={()=>void retryAccount()} className="account-sync">{accountStatus}</button><button className="button" onClick={()=>void logout()}>退出登录</button></> : <><div><strong>你的收藏，只属于你</strong><span>公开阅读 · 登录后私密保存收藏、笔记和阅读记录</span></div><button className="button google-login" onClick={login}>使用 Google 登录</button></>}
+          </section>
+          {!user && accountStatus.includes('暂不可用') && <div className="notice"><button onClick={()=>void retryAccount()}>{accountStatus}</button></div>}
+          {user && !legacyImported && (INITIAL.saved.length>0||INITIAL.read.length>0||Object.keys(INITIAL.notes).length>0||INITIAL.following.length>0) && <div className="notice legacy-import"><span>检测到此浏览器的旧记录。可主动合并到当前账号，本机备份会保留。</span><button className="button" onClick={()=>{setPersonal(p=>({...p,saved:[...new Set([...p.saved,...INITIAL.saved])],read:[...new Set([...p.read,...INITIAL.read])],following:[...new Set([...p.following,...INITIAL.following])],notes:{...INITIAL.notes,...p.notes}}));setLegacyImported(true)}}>导入旧记录到此账号</button></div>}
           {stale && (
             <div className="notice">
               距离上次同步已超过 36 小时。以下是最后一次可用资料，请查看
@@ -848,10 +845,12 @@ export default function App() {
                   <section className="reading-section">
                     <div className="section-kicker">
                       <BookOpen size={16} />
-                      我的笔记 <span>自动保存在当前浏览器</span>
+                      我的笔记 <span>{user?"按账号私密保存":"登录后可记录"}</span>
                     </div>
                     <textarea
                       aria-label="我的笔记"
+                      disabled={!user}
+                      maxLength={20000}
                       placeholder="记下它与你的 harness 的关系，或下一次想验证的假设…"
                       value={personal.notes[article.id] || ""}
                       onChange={(e) =>
@@ -1108,7 +1107,7 @@ export default function App() {
                       {view === "today"
                         ? "从一手资料中，追踪 Agent Harness 的设计选择与演化。"
                         : view === "saved"
-                          ? "收藏、阅读标记与笔记保存在当前浏览器，可导出带走。"
+                          ? "收藏、阅读标记与笔记按 Google 账号私密保存，登录后可跨设备同步。"
                           : currentTheme
                             ? currentTheme.description
                             : "论文、开源实现与工程文章，回到每个观点的原始依据。"}
@@ -1116,7 +1115,7 @@ export default function App() {
                   </div>
                   {view === "saved" && (
                     <div className="personal-tools">
-                      <button className="button" onClick={exportData}>
+                      <button className="button" onClick={exportData} disabled={!user}>
                         <ArrowDownToLine size={15} />
                         导出阅读记录
                       </button>

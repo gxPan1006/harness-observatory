@@ -1,0 +1,8 @@
+[Unit]
+Description=Check Harness Google callback certificate daily
+[Timer]
+OnCalendar=*-*-* 03:00:00 UTC
+RandomizedDelaySec=600
+Persistent=true
+[Install]
+WantedBy=timers.target

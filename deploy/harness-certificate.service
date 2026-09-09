@@ -1,0 +1,8 @@
+[Unit]
+Description=Renew Harness Google callback TLS certificate
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/harness-observatory/deploy/renew-account-certificate.py
+TimeoutStartSec=300

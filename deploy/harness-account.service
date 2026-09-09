@@ -1,0 +1,21 @@
+[Unit]
+Description=Harness private Google account storage
+After=network-online.target harness-egress.service
+Wants=network-online.target
+Requires=harness-egress.service
+[Service]
+User=harness
+Group=harness
+WorkingDirectory=/opt/harness-observatory
+EnvironmentFile=/etc/harness-account.env
+ExecStart=/opt/harness-observatory/.venv/bin/python /opt/harness-observatory/account/server.py
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/harness-observatory/accounts
+[Install]
+WantedBy=multi-user.target
