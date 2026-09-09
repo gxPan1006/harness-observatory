@@ -41,148 +41,80 @@
     {
       "repo": "deepseek-ai/deepseek-harness",
       "org": "DeepSeek",
-      "themes": [
-        "tools",
-        "runtime"
-      ],
-      "docs": [
-        "README.md",
-        "docs/architecture.md"
-      ]
+      "themes": ["tools", "runtime"],
+      "docs": ["README.md", "docs/architecture.md"]
     },
     {
       "repo": "openai/codex",
       "org": "OpenAI",
-      "themes": [
-        "runtime",
-        "orchestration"
-      ],
-      "docs": [
-        "codex-rs/app-server/README.md",
-        "README.md"
-      ]
+      "themes": ["runtime", "orchestration"],
+      "docs": ["codex-rs/app-server/README.md", "README.md"]
     },
     {
       "repo": "openai/openai-agents-python",
       "org": "OpenAI",
-      "themes": [
-        "orchestration",
-        "evaluation"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["orchestration", "evaluation"],
+      "docs": ["README.md"]
     },
     {
       "repo": "anthropics/claude-agent-sdk-python",
       "org": "Anthropic",
-      "themes": [
-        "orchestration",
-        "runtime"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["orchestration", "runtime"],
+      "docs": ["README.md"]
     },
     {
       "repo": "anthropics/claude-code",
       "org": "Anthropic",
-      "themes": [
-        "context",
-        "tools"
-      ],
-      "docs": [
-        "README.md",
-        "CHANGELOG.md"
-      ]
+      "themes": ["context", "tools"],
+      "docs": ["README.md", "CHANGELOG.md"]
     },
     {
       "repo": "anthropics/skills",
       "org": "Anthropic",
-      "themes": [
-        "tools",
-        "context"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["tools", "context"],
+      "docs": ["README.md"]
     },
     {
       "repo": "google-gemini/gemini-cli",
       "org": "Google",
-      "themes": [
-        "tools",
-        "runtime"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["tools", "runtime"],
+      "docs": ["README.md"]
     },
     {
       "repo": "google/adk-python",
       "org": "Google",
-      "themes": [
-        "orchestration",
-        "evaluation"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["orchestration", "evaluation"],
+      "docs": ["README.md"]
     },
     {
       "repo": "langchain-ai/deepagents",
       "org": "LangChain",
-      "themes": [
-        "context",
-        "evolution"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["context", "evolution"],
+      "docs": ["README.md"]
     },
     {
       "repo": "langchain-ai/langgraph",
       "org": "LangChain",
-      "themes": [
-        "orchestration",
-        "runtime"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["orchestration", "runtime"],
+      "docs": ["README.md"]
     },
     {
       "repo": "All-Hands-AI/OpenHands",
       "org": "OpenHands",
-      "themes": [
-        "runtime",
-        "evaluation"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["runtime", "evaluation"],
+      "docs": ["README.md"]
     },
     {
       "repo": "SWE-agent/SWE-agent",
       "org": "SWE-agent",
-      "themes": [
-        "tools",
-        "evaluation"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["tools", "evaluation"],
+      "docs": ["README.md"]
     },
     {
       "repo": "modelcontextprotocol/python-sdk",
       "org": "MCP",
-      "themes": [
-        "tools",
-        "runtime"
-      ],
-      "docs": [
-        "README.md"
-      ]
+      "themes": ["tools", "runtime"],
+      "docs": ["README.md"]
     }
   ],
   "feeds": [
@@ -192,9 +124,7 @@
       "org": "OpenAI",
       "url": "https://openai.com/news/rss.xml",
       "type": "rss",
-      "domains": [
-        "openai.com"
-      ]
+      "domains": ["openai.com"]
     },
     {
       "id": "anthropic-engineering",
@@ -203,10 +133,7 @@
       "url": "https://www.anthropic.com/engineering",
       "type": "index",
       "pattern": "/engineering/",
-      "domains": [
-        "www.anthropic.com",
-        "anthropic.com"
-      ]
+      "domains": ["www.anthropic.com", "anthropic.com"]
     },
     {
       "id": "langchain-blog",
@@ -215,10 +142,7 @@
       "url": "https://www.langchain.com/blog",
       "type": "index",
       "pattern": "/blog/",
-      "domains": [
-        "www.langchain.com",
-        "blog.langchain.com"
-      ]
+      "domains": ["www.langchain.com", "blog.langchain.com"]
     },
     {
       "id": "arxiv-harness",
@@ -226,9 +150,7 @@
       "org": "Research",
       "url": "https://export.arxiv.org/api/query?search_query=ti:harness+OR+ti:%22agent+computer%22+OR+ti:%22context+engineering%22+OR+ti:%22coding+agents%22&sortBy=submittedDate&sortOrder=descending&max_results=30",
       "type": "arxiv",
-      "domains": [
-        "arxiv.org"
-      ]
+      "domains": ["arxiv.org"]
     }
   ],
   "seeds": [
@@ -237,89 +159,63 @@
       "org": "Anthropic",
       "title": "Effective harnesses for long-running agents",
       "published": "2025-11-26",
-      "themes": [
-        "context",
-        "orchestration"
-      ]
+      "themes": ["context", "orchestration"]
     },
     {
       "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
       "org": "Anthropic",
       "title": "Harness design for long-running application development",
       "published": "2026-03-24",
-      "themes": [
-        "orchestration",
-        "evolution"
-      ]
+      "themes": ["orchestration", "evolution"]
     },
     {
       "url": "https://www.anthropic.com/engineering/managed-agents",
       "org": "Anthropic",
       "title": "Scaling Managed Agents: Decoupling the brain from the hands",
       "published": "2026-04-08",
-      "themes": [
-        "runtime",
-        "orchestration"
-      ]
+      "themes": ["runtime", "orchestration"]
     },
     {
       "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
       "org": "Anthropic",
       "title": "Effective context engineering for AI agents",
       "published": "2025-09-29",
-      "themes": [
-        "context",
-        "tools"
-      ]
+      "themes": ["context", "tools"]
     },
     {
       "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
       "org": "Anthropic",
       "title": "Demystifying evals for AI agents",
       "published": "2026-01-09",
-      "themes": [
-        "evaluation"
-      ]
+      "themes": ["evaluation"]
     },
     {
       "url": "https://openai.com/index/harness-engineering/",
       "org": "OpenAI",
       "title": "Harness engineering: leveraging Codex in an agent-first world",
       "published": "2026-02-11",
-      "themes": [
-        "evaluation",
-        "evolution"
-      ]
+      "themes": ["evaluation", "evolution"]
     },
     {
       "url": "https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering",
       "org": "LangChain",
       "title": "Improving Deep Agents with harness engineering",
       "published": "2026-02-17",
-      "themes": [
-        "evaluation",
-        "evolution"
-      ]
+      "themes": ["evaluation", "evolution"]
     },
     {
       "url": "https://www.langchain.com/blog/the-anatomy-of-an-agent-harness",
       "org": "LangChain",
       "title": "The Anatomy of an Agent Harness",
       "published": "2026-03-10",
-      "themes": [
-        "orchestration",
-        "context"
-      ]
+      "themes": ["orchestration", "context"]
     },
     {
       "url": "https://www.langchain.com/blog/deep-agents-v0-7",
       "org": "LangChain",
       "title": "Deep Agents v0.7",
       "published": "2026-07-29",
-      "themes": [
-        "evolution",
-        "context"
-      ]
+      "themes": ["evolution", "context"]
     },
     {
       "url": "https://arxiv.org/abs/2405.15793",
@@ -327,40 +223,28 @@
       "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
       "published": "2024-05-06",
       "kind": "paper",
-      "themes": [
-        "tools",
-        "evaluation"
-      ]
+      "themes": ["tools", "evaluation"]
     },
     {
       "url": "https://arxiv.org/abs/2609.00006",
       "org": "Research",
       "title": "Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents — A Source-Code Study of Eleven Systems",
       "kind": "paper",
-      "themes": [
-        "evolution",
-        "runtime"
-      ]
+      "themes": ["evolution", "runtime"]
     },
     {
       "url": "https://arxiv.org/abs/2606.13643",
       "org": "Research",
       "title": "Recursive Agent Harnesses",
       "kind": "paper",
-      "themes": [
-        "orchestration",
-        "context"
-      ]
+      "themes": ["orchestration", "context"]
     },
     {
       "url": "https://arxiv.org/abs/2604.25850",
       "org": "Research",
       "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
       "kind": "paper",
-      "themes": [
-        "evaluation",
-        "evolution"
-      ]
+      "themes": ["evaluation", "evolution"]
     }
   ]
 }
