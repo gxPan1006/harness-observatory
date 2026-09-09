@@ -183,6 +183,102 @@
       "docs": [
         "README.md"
       ]
+    },
+    {
+      "repo": "Aider-AI/aider",
+      "org": "Aider",
+      "branch": "main",
+      "themes": [
+        "context",
+        "tools"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "anomalyco/opencode",
+      "org": "OpenCode",
+      "branch": "dev",
+      "themes": [
+        "runtime",
+        "tools"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "earendil-works/pi",
+      "org": "Pi",
+      "branch": "main",
+      "themes": [
+        "orchestration",
+        "evolution"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "org": "Hermes",
+      "branch": "main",
+      "themes": [
+        "context",
+        "evolution"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "SWE-agent/mini-swe-agent",
+      "org": "mini-SWE-agent",
+      "branch": "main",
+      "themes": [
+        "orchestration",
+        "evaluation"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "microsoft/autogen",
+      "org": "Microsoft",
+      "branch": "main",
+      "themes": [
+        "orchestration",
+        "runtime"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "org": "CrewAI",
+      "branch": "main",
+      "themes": [
+        "orchestration",
+        "tools"
+      ],
+      "docs": [
+        "README.md"
+      ]
+    },
+    {
+      "repo": "huggingface/smolagents",
+      "org": "Hugging Face",
+      "branch": "main",
+      "themes": [
+        "tools",
+        "evaluation"
+      ],
+      "docs": [
+        "README.md"
+      ]
     }
   ],
   "feeds": [

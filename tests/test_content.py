@@ -15,3 +15,10 @@ class ContentIntegrity(unittest.TestCase):
             if item['published']:self.assertRegex(item['published'],r'^\d{4}-\d{2}-\d{2}$')
         for digest in data['digests']:self.assertTrue(set(digest['items']).issubset(ids))
         self.assertFalse(re.search(r'sk-[a-zA-Z0-9]{16,}',json.dumps(data)))
+
+class SynthesisIntegrity(unittest.TestCase):
+    def test_live_snapshot_cross_source_citations(self):
+        from collector.update import validate_direction
+        data=json.loads((Path(__file__).resolve().parents[1]/'data/bootstrap.json').read_text())
+        for value in data.get('directions',{}).values():
+            validate_direction(value,data['items'])

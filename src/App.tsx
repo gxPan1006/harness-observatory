@@ -81,7 +81,12 @@ type Run = {
   attempted: number;
   pending: number;
 };
+type Direction = {
+ thesis: string; summary: string; generatedAt: string; sourceCount: number; organizations: string[];
+ patterns: {text:string;refs:string[]}[]; tradeoffs: {text:string;refs:string[]}[]; watch: {text:string;refs:string[]}[];
+};
 type Feed = {
+ directions?: Record<string, Direction>;
   updatedAt: string;
   items: Item[];
   themes: Theme[];
@@ -342,7 +347,7 @@ export default function App() {
     feed?.items.filter((i) => !personal.read.includes(i.id)).length || 0;
   const nav = [
     { id: "today", label: "每日观察", icon: Radio },
-    { id: "themes", label: "设计方向", icon: Compass },
+    { id: "themes", label: "行业方向", icon: Compass },
     { id: "library", label: "资料库", icon: Layers3 },
     { id: "saved", label: "我的收藏", icon: Bookmark },
     { id: "sources", label: "来源与更新", icon: Activity },
@@ -887,12 +892,13 @@ export default function App() {
               ) : view === "themes" ? (
                 <>
                   <div className="page-heading">
-                    <div className="overline">DESIGN DIRECTIONS</div>
-                    <h1>沿着问题，追踪演化。</h1>
-                    <p>把公司的新进展放回系统设计中，看哪些假设正在改变。</p>
+                    <div className="overline">INDUSTRY DIRECTIONS</div>
+                    <h1>跨越信源，看清方向。</h1>
+                    <p>综合公司与开源社区的设计：哪些机制正在趋同，哪些路线仍有分歧，下一步值得验证什么。</p>
                   </div>
                   <div className="theme-grid">
                     {feed.themes.map((t, j) => {
+                      const synthesis = feed.directions?.[t.id];
                       const related = feed.items.filter((i) =>
                         i.themes.includes(t.id),
                       );
@@ -923,8 +929,9 @@ export default function App() {
                               <ArrowUpRight size={18} />
                             </a>
                           </h2>
-                          <h3>{t.question}</h3>
-                          <p>{t.description}</p>
+                          <h3>{synthesis?.thesis || t.question}</h3>
+                          <p>{synthesis?.summary || t.description}</p>
+                          {synthesis && <div className="direction-coverage">{synthesis.organizations.length} 个组织 · {synthesis.sourceCount} 条证据 · {fmt(synthesis.generatedAt)} 综合</div>}
                           <div className="theme-meta">
                             {related.length} 条资料
                             <span>
@@ -936,19 +943,13 @@ export default function App() {
                               条未读
                             </span>
                           </div>
-                          <div className="theme-latest">
-                            最新线索
-                            <a href={"#article/" + related[0]?.id}>
-                              {related[0]?.titleZh || "等待下一次同步"}
-                              <ArrowRight size={14} />
-                            </a>
-                          </div>
+                          <a className="direction-read" href={"#theme/"+t.id}>阅读共性、取舍与验证问题 <ArrowRight size={15}/></a>
                         </section>
                       );
                     })}
                   </div>
                   <div className="method-note">
-                    方向根据原始资料归类。关注后可从左侧快速进入，阅读与关注状态保存在当前浏览器。
+                    综合判断由 DeepSeek 基于已收录资料生成；共性与路线取舍须引用至少两个组织。样本不代表整个行业，点击证据核对原文。每天检查，有新证据时更新，生成失败保留上一版。
                   </div>
                 </>
               ) : view === "sources" ? (
@@ -1140,6 +1141,9 @@ export default function App() {
                     }
                   >
                     <div className="primary-column">
+                      {currentTheme && feed.directions?.[currentTheme.id] && <DirectionReading direction={feed.directions[currentTheme.id]} items={feed.items}/>}
+                      {view === "today" && <a className="direction-entry" href="#themes"><Compass size={20}/><div><strong>行业方向 · 从信息到判断</strong><span>跨公司与开源项目，看共性、路线取舍与下一步实验</span></div><ArrowRight size={18}/></a>}
+
                       {view === "today" && digest && (
                         <section className="digest">
                           <div className="digest-label">
@@ -1289,4 +1293,15 @@ export default function App() {
       )}
     </div>
   );
+}
+
+function DirectionReading({direction:d,items}:{direction:Direction;items:Item[]}) {
+ return <section className="direction-reading">
+  <div className="overline">CROSS-SOURCE SYNTHESIS · 综合推断</div>
+  <h2>{d.thesis}</h2><p className="direction-summary">{d.summary}</p>
+  <div className="direction-coverage">{d.organizations.length} 个组织 · {d.sourceCount} 条证据 · {fmt(d.generatedAt)} 整理</div>
+  <div className="direction-orgs">{d.organizations.join(" / ")}</div>
+  {([['patterns','正在趋同的机制'],['tradeoffs','不同路线，如何取舍'],['watch','下一步，验证什么']] as const).map(([key,label])=><section className="direction-section" key={key}><h3>{label}</h3>{d[key].map((claim,index)=><div className="direction-claim" key={index}><p>{claim.text}</p><div className="direction-evidence">{claim.refs.map(id=>{const item=items.find(i=>i.id===id);return item?<a key={id} href={'#article/'+id} title={item.titleZh}>{item.org}<span>{item.titleZh}</span><ArrowUpRight size={12}/></a>:null})}</div></div>)}</section>)}
+  <div className="method-note">这是基于当前样本的综合判断，未做独立实验验证；原始资料的文档、摘要与性能口径限制同样适用。点击每条证据查看事实、提炼边界与原文。</div>
+ </section>;
 }
