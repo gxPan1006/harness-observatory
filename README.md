@@ -22,7 +22,7 @@
 
 - OpenAI：Codex（含 app-server 文档）、Agents SDK、官方文章 RSS。
 - Anthropic：Engineering、Claude Agent SDK、Claude Code 版本记录、Skills。
-- DeepSeek：官方 `deepseek-ai/deepseek-harness` 仓库及架构文档。
+- DeepSeek：官方 `deepseek-ai/deepseek-harness` 仓库及架构文档、与北大合著的时空可组合性论文、V3.2 Agent 训练报告。
 - Google：Gemini CLI、ADK。
 - LangChain：Deep Agents、LangGraph、官方工程博客。
 - OpenHands、SWE-agent、MCP Python SDK，以及 arXiv 的 Harness / 编码 Agent / 上下文工程论文。
@@ -57,6 +57,8 @@ npm run build
 默认 `deepseek-v4-flash`，每次最多处理 24 条，每条请求限制输出长度，失败采用有限重试。未变化 / 已收录资料不重复调用模型。失败条目指数退避后再次尝试；成功摘要逐条落盘，防止中断后重复付费。
 
 可用环境变量：`DEEPSEEK_API_KEY`、`DEEPSEEK_MODEL`、`DEEPSEEK_BASE_URL`、`MAX_ITEMS_PER_RUN`、`STATE_DIR`、`OUTPUT_DIR`、可选只读 `GITHUB_TOKEN`。默认每日 39–52 次 GitHub API 请求；未登录配额不足时保留已有资料，下一次重试。
+
+`--process-only` 可处理已有队列与新增基础资料，不重复访问来源索引。`--process-only --max-items 0 --refresh-digest` 仅重新综合当天已收录资料。
 
 `--max-items 0` 只检查来源和发布已有内容，不调用模型。首次回填可显式增加到 `--max-items 60`（上限 100），常规任务继续使用 24。模型请求有次数与 token 上限，但这不是精确的人民币消费上限。
 

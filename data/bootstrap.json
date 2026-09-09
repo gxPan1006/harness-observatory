@@ -1,16 +1,17 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-09T05:29:43.126882+00:00",
+  "updatedAt": "2026-09-09T05:38:38.815758+00:00",
   "lastRun": {
-    "startedAt": "2026-09-09T05:28:41.967402+00:00",
-    "finishedAt": "2026-09-09T05:29:43.125012+00:00",
-    "newItems": 15,
-    "attempted": 24,
-    "errors": 2,
+    "mode": "queue",
+    "startedAt": "2026-09-09T05:38:36.148652+00:00",
+    "finishedAt": "2026-09-09T05:38:38.813719+00:00",
+    "newItems": 0,
+    "attempted": 0,
+    "errors": 0,
     "pending": 88,
     "usage": {
-      "prompt_tokens": 36851,
-      "completion_tokens": 6768
+      "prompt_tokens": 1441,
+      "completion_tokens": 204
     }
   },
   "schedule": "每天 08:00（北京时间）",
@@ -1691,6 +1692,43 @@
       "model": "deepseek-v4-flash"
     },
     {
+      "id": "9383b7ae08dd8050b97a",
+      "url": "https://arxiv.org/abs/2608.25512",
+      "title": "A Programming Paradigm for Spatiotemporal Composability",
+      "org": "DeepSeek",
+      "kind": "paper",
+      "published": "2026-08-26",
+      "themes": [
+        "context",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "时空可组合性编程范式：从运行时效应到上下文机制",
+      "summary": "论文提出上下文范式，通过可逆效应与反应式共效应实现动态组件的时空可组合性，并提供元框架Cordis。",
+      "facts": [
+        "识别时间与空间可组合性两个维度，前者需在组件移除时完全回滚副作用，后者需声明并响应式管理组件间依赖。",
+        "将经典效应与共效应提升为运行时机制，可逆效应带逆变换，反应式共效应按规范驱动组件激活与去活。",
+        "实现Cordis元框架，包含效应追踪、共效应解析、声明式加载器，支持配置协调与热模块替换。"
+      ],
+      "insight": "该范式可为agent harness提供组件卸载时副作用清理和依赖反应机制，但需运行时持有逆变换，可能增加复杂度；适用于插件型或自演化agent系统。",
+      "experiment": "在harness中装上Cordis式管理，对比有无时动态移除工具后状态残留量及依赖冲突频次。",
+      "caveat": "仅依据摘要，未读全文；实现细节与验证未明确，性能等结论需谨慎对待。",
+      "relevance": 86,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:36:40.194379+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2608.25512"
+        }
+      ]
+    },
+    {
       "id": "2190af585be2464840fd",
       "url": "https://github.com/google/adk-python/releases/tag/v2.8.0",
       "title": "google/adk-python · v2.8.0",
@@ -2211,7 +2249,7 @@
       "sourceId": "curated",
       "curated": true,
       "abstractOnly": true,
-      "titleZh": "递归智能体装备：代码优先的模型递归扩展研究",
+      "titleZh": "递归 Agent Harness：从模型调用扩展到完整执行环境",
       "summary": "论文提出递归智能体装备（RAH），父代理生成脚本并行生成子代理，用于细粒度任务，在长上下文推理中提升编码代理基线。",
       "facts": [
         "RAH框架中父代理生成并运行脚本，并行派生子代理处理细粒度工作负载，并用结构化函数调用处理小子任务。",
@@ -2392,7 +2430,7 @@
       ],
       "sourceId": "curated",
       "curated": true,
-      "titleZh": "通过约束工程设计提升深度智能体的性能",
+      "titleZh": "Deep Agents 的 Harness 优化：验证与 Trace 闭环",
       "summary": "LangChain 团队通过约束工程将编码智能体在 Terminal Bench 2.0 上的得分从 52.8% 提升至 66.5%，核心方法包括自我验证、环境上下文注入和循环检测。",
       "facts": [
         "编码智能体在 Terminal Bench 2.0 上得分从 52.8% 提升至 66.5%，仅改变约束，模型固定为 gpt-5.2-codex。",
@@ -2483,6 +2521,43 @@
         {
           "label": "官方原文",
           "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+        }
+      ]
+    },
+    {
+      "id": "50e35f9fec5a02e07952",
+      "url": "https://arxiv.org/abs/2512.02556",
+      "title": "DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models",
+      "org": "DeepSeek",
+      "kind": "paper",
+      "published": "2025-12-02",
+      "themes": [
+        "tools",
+        "evaluation",
+        "evolution"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "DeepSeek-V3.2：兼顾效率与推理智能体的开源大模型",
+      "summary": "DeepSeek-V3.2引入稀疏注意力、可扩展RL框架及大规模智能体任务合成流水线，提升工具使用与推理能力。",
+      "facts": [
+        "提出DeepSeek Sparse Attention，降低长上下文计算复杂度并保持性能。",
+        "可扩展强化学习协议下，高算力变体Speciale在IMO和IOI获金牌，推理媲美Gemini-3.0-Pro。",
+        "为整合推理与工具使用，构建系统化合成流水线生成训练数据，改善复杂交互中的泛化与指令遵循。"
+      ],
+      "insight": "合成数据流水线可借鉴于harness中agent任务扩增，但需验证其稳定性和数据质量，以提升推理与工具调用的鲁棒性。",
+      "experiment": "对比使用DSA、合成数据与基线在长上下文工具调用任务上的成功率、延迟与泛化能力。",
+      "caveat": "仅基于论文摘要，未获得完整细节；性能为作者报告。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:36:39.860011+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2512.02556"
         }
       ]
     },
@@ -2761,8 +2836,7 @@
       "summary": "论文基于SWE-bench等，断言定制界面显著增强LM代理在软件任务中的表现，pass@1为12.5%和87.7%，但仅基于摘要。",
       "facts": [
         "论文提出SWE-agent系统，通过定制agent-computer interface增强LM代理自主软件工程能力。",
-        "在SWE-bench和HumanEvalFix上，声称pass@1分别达12.5%和87.7%，超此前非交互方法。",
-        "论文仅摘要可用，正文未验证，实际实现需查代码库。"
+        "在SWE-bench和HumanEvalFix上，声称pass@1分别达12.5%和87.7%，超此前非交互方法。"
       ],
       "insight": "针对harness设计，应关注工具接口的交互性，但结果依赖模型和任务难度，需在自有环境复测",
       "experiment": "对照实验：在SWE-bench子集比较定制工具界面与普通bash工具的解决率及历史长度",
@@ -2817,21 +2891,21 @@
   ],
   "digests": [
     {
-      "headline": "harness安全与演化：理论框架与实证风险并进",
-      "synthesis": "研究所涉方向多元：EvoSafeHarness与安全演化理论关注框架内安全约束，后者强调生成与认证分离的停滞风险；供应链实证揭示了三类可确认缺陷。工程实践中，ADK回调语义统一，OpenHands调整CI触发，均侧重运行时行为可预测性。综合判断，当前harness研究侧重安全与可靠性工程，但理论提出的认证分离问题在实证中未见直接回应。",
+      "headline": "harness工程走向可观测、可演化与系统化",
+      "synthesis": "综合来源显示，harness设计正从手动配置转向可观测闭环（AHE）与可证伪合约，同时多家厂商强调约束工程和上下文工程作为提升Agent性能的核心方法论，而源码剖析则推动架构与模式的系统化总结。",
       "watch": [
-        "check harness中的回调短路与参数绑定设计是否采用truthy语义及灵活位置参数，需验证旧有非None检查是否被统一",
-        "观察Agent Canvas迁移至main后执行E2E的可靠性，以及issue正文结构推断相比标签的误判率"
+        "如何量化可观测性对harness演化效果的边际贡献？",
+        "不同上下文工程策略在长任务中的token效率与稳定性如何权衡？"
       ],
       "items": [
-        "f65d361725bab48ae7a2",
-        "6e080da15a62da8fafea",
-        "110f447ef0ae682fb488",
-        "1cd66ce61c828b5413d3",
-        "21b3158e922c582ce824"
+        "56d6e4c61e9846b3e1ca",
+        "dbb73861c49fe0a838d9",
+        "2e12fd56c15d47088661",
+        "126e07cf0d684e0333f9",
+        "9fa759b72385cdecdf59"
       ],
       "date": "2026-09-09",
-      "generatedAt": "2026-09-09T05:29:43.101679+00:00",
+      "generatedAt": "2026-09-09T05:38:38.795757+00:00",
       "model": "deepseek-v4-flash"
     }
   ],
@@ -3072,6 +3146,32 @@
       "usage": {
         "prompt_tokens": 36851,
         "completion_tokens": 6768
+      }
+    },
+    {
+      "mode": "queue",
+      "startedAt": "2026-09-09T05:36:36.121855+00:00",
+      "finishedAt": "2026-09-09T05:36:42.636291+00:00",
+      "newItems": 2,
+      "attempted": 2,
+      "errors": 0,
+      "pending": 88,
+      "usage": {
+        "prompt_tokens": 5287,
+        "completion_tokens": 741
+      }
+    },
+    {
+      "mode": "queue",
+      "startedAt": "2026-09-09T05:38:36.148652+00:00",
+      "finishedAt": "2026-09-09T05:38:38.813719+00:00",
+      "newItems": 0,
+      "attempted": 0,
+      "errors": 0,
+      "pending": 88,
+      "usage": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 204
       }
     }
   ]

@@ -965,7 +965,7 @@ export default function App() {
                       <small>北京时间 · 服务器自动运行</small>
                     </div>
                     <div>
-                      <span>最近一次收录</span>
+                      <span>本次新增</span>
                       <strong>
                         {feed.lastRun.newItems} <em>条</em>
                       </strong>
