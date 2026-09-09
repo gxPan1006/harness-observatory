@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.venv/
+.env*
+!.env.example
+__pycache__/
+*.pyc
+*.tsbuildinfo
+state/
+public/data/*.json
+!public/data/.gitkeep
+.DS_Store

@@ -1,0 +1,26 @@
+[Unit]
+Description=Harness Observatory daily primary-source digest
+Wants=network-online.target
+After=network-online.target harness-egress.service
+
+[Service]
+Type=oneshot
+User=harness
+Group=harness
+WorkingDirectory=/opt/harness-observatory
+EnvironmentFile=/etc/harness-observatory.env
+Environment=STATE_DIR=/var/lib/harness-observatory/state
+Environment=OUTPUT_DIR=/var/lib/harness-observatory/public
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/harness-observatory/.venv/bin/python /opt/harness-observatory/collector/update.py
+TimeoutStartSec=45min
+UMask=0022
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/harness-observatory
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+MemoryMax=512M
+CPUQuota=50%

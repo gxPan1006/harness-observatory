@@ -1,0 +1,13 @@
+[Unit]
+Description=Direct HTTPS for the Harness collector user only
+After=network-online.target iptables.service redsocks-residential.service
+Before=harness-update.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/iptables -t nat -I OUTPUT 1 -m owner --uid-owner harness -p tcp -m multiport --dports 80,443 -j RETURN
+ExecStop=/usr/sbin/iptables -t nat -D OUTPUT -m owner --uid-owner harness -p tcp -m multiport --dports 80,443 -j RETURN
+
+[Install]
+WantedBy=multi-user.target

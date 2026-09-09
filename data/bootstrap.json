@@ -1,0 +1,3078 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-09T05:29:43.126882+00:00",
+  "lastRun": {
+    "startedAt": "2026-09-09T05:28:41.967402+00:00",
+    "finishedAt": "2026-09-09T05:29:43.125012+00:00",
+    "newItems": 15,
+    "attempted": 24,
+    "errors": 2,
+    "pending": 88,
+    "usage": {
+      "prompt_tokens": 36851,
+      "completion_tokens": 6768
+    }
+  },
+  "schedule": "每天 08:00（北京时间）",
+  "themes": [
+    {
+      "id": "context",
+      "name": "上下文与记忆",
+      "question": "长任务如何保持正确的上下文？",
+      "description": "压缩、外部记忆、状态交接、检索与渐进披露。关注信息留存质量，而不只是窗口长度。"
+    },
+    {
+      "id": "orchestration",
+      "name": "执行与编排",
+      "question": "什么时候该拆分，什么时候该简化？",
+      "description": "Agent loop、子代理、并行执行与长任务恢复。用消融实验检验每个编排层是否必要。"
+    },
+    {
+      "id": "tools",
+      "name": "工具与协议",
+      "question": "怎样让能力易于发现、组合和调用？",
+      "description": "工具接口、插件生命周期、MCP、Skills 与 Agent-Computer Interface。"
+    },
+    {
+      "id": "evaluation",
+      "name": "评测与反馈",
+      "question": "怎样知道 harness 真的变好了？",
+      "description": "Trace、失败归因、验证闭环、基准与回归。将模型、任务和成本纳入对照。"
+    },
+    {
+      "id": "runtime",
+      "name": "运行时与隔离",
+      "question": "如何让长任务可靠、安全地运行？",
+      "description": "沙箱、权限边界、持久会话、执行环境和故障恢复。"
+    },
+    {
+      "id": "evolution",
+      "name": "自改进与适配",
+      "question": "哪些设计正在被更强的模型淘汰？",
+      "description": "模型适配、harness 消融、自动优化与可观测性驱动的演化。"
+    }
+  ],
+  "items": [
+    {
+      "id": "f65d361725bab48ae7a2",
+      "url": "https://github.com/google/adk-python/tree/6a811d2bfcea004d1edad685fb7ca3eeb4f5f716",
+      "title": "google/adk-python · 代码观察",
+      "org": "Google",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "tools"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "6a811d2bfcea",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/google/adk-python/blob/6a811d2bfcea004d1edad685fb7ca3eeb4f5f716/README.md"
+        },
+        {
+          "label": "与上次观察的代码差异",
+          "url": "https://github.com/google/adk-python/compare/0673f0548f30...6a811d2bfcea004d1edad685fb7ca3eeb4f5f716"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "ADK回调契约统一为truthy短路与参数绑定灵活化",
+      "summary": "ADK将各生命周期回调的链式短路条件由'非None'改为'真值'，并允许位置参数绑定，统一文档与实际运行时行为。",
+      "facts": [
+        "多个回调（before/after agent、model等）均改为遇真值返回值即短路，None则继续后续回调。",
+        "工具相关回调的非None返回值（含空dict）会短路并替换工具调用或结果。",
+        "回调参数先按关键字绑定，失败时按文档顺序尝试位置绑定，仅关键字参数需匹配文档名称。"
+      ],
+      "insight": "真值短路语义让返回空dict等'假值'对象也能触发拦截，对工具mock或请求改写场景更精确；位置参数放宽降低自定义回调签名摩擦，适合在harness中做插桩或代理层。",
+      "experiment": "在before_tool_callback返回空dict{}与None，分别观察工具是否被跳过、链是否截断，验证真值短路行为一致性。",
+      "caveat": "基于代码注释与README，未验证实际运行时执行路径；文档称'对齐行为'，但测试未查看。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:10.921380+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "6e080da15a62da8fafea",
+      "url": "https://github.com/OpenHands/OpenHands/tree/7e5191c42e8dbb2e24b4f907a099fa05e57e8f47",
+      "title": "OpenHands/OpenHands · 代码观察",
+      "org": "OpenHands",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "evaluation",
+        "runtime"
+      ],
+      "sourceId": "All-Hands-AI/OpenHands",
+      "repo": "OpenHands/OpenHands",
+      "revision": "7e5191c42e8d",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/OpenHands/OpenHands/blob/7e5191c42e8dbb2e24b4f907a099fa05e57e8f47/README.md"
+        },
+        {
+          "label": "与上次观察的代码差异",
+          "url": "https://github.com/OpenHands/OpenHands/compare/c9b6ceac9695...7e5191c42e8dbb2e24b4f907a099fa05e57e8f47"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "OpenHands Agent Canvas：CI 与议题就绪检查机制变更",
+      "summary": "Agent Canvas 的 live E2E 改为合并到 main 后运行，PR 标签不再触发；议题就绪检查改由正文结构推断类型，不再依赖 bug/enhancement 标签。",
+      "facts": [
+        "live-e2e 工作流触发条件从 PR 标签改为 workflow_dispatch 或 push 到 main，PR 标签不再触发。",
+        "议题就绪检查改为从正文段落（如 Steps to Reproduce、Desired Behavior）推断类型，忽略 bug/enhancement 标签。",
+        "代码审查指南更新：mock-LLM、Docker mock-LLM 和 live LLM E2E 在变更合并到 main 后运行，不再由 PR 标签决定。"
+      ],
+      "insight": "将 E2E 移至合并后而非 PR 标签，降低 fork 或标签滥用带来的安全风险，但反馈延迟增加；若要保留预合并验证，可另设手动 dispatch 工作流作为门禁。",
+      "experiment": "对比合并前（PR 标签触发）与合并后运行 live E2E 的缺陷漏检率与合并阻塞时间，观察指标为合并到发现问题间隔及回归数。",
+      "caveat": "变更来自 commit 与源码，未验证运行效果；README 与提交标题不等同于已验证实现。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:10.760512+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "8ea27dcf7d882d0c0076",
+      "url": "https://github.com/openai/codex/tree/85c2d4d921688324334f2d91a62529c08d17d617",
+      "title": "openai/codex · 代码观察",
+      "org": "OpenAI",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "tools"
+      ],
+      "sourceId": "openai/codex",
+      "repo": "openai/codex",
+      "revision": "85c2d4d92168",
+      "evidence": [
+        {
+          "label": "codex-rs/app-server/README.md",
+          "url": "https://github.com/openai/codex/blob/85c2d4d921688324334f2d91a62529c08d17d617/codex-rs/app-server/README.md"
+        },
+        {
+          "label": "README.md",
+          "url": "https://github.com/openai/codex/blob/85c2d4d921688324334f2d91a62529c08d17d617/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Codex CLI 用户验证取消与线程管理机制更新",
+      "summary": "Codex CLI 增加用户验证取消API，更新线程归档删除限制，调整Bedrock认证配置约束。",
+      "facts": [
+        "新增用户验证取消API，通过userVerification/cancel与请求ID匹配，返回空确认。",
+        "thread/archive和thread/delete拒绝移除活跃内部worker，返回JSON-RPC错误-32600。",
+        "Bedrock认证配置credential_export与profile不能同时设置，否则报错。"
+      ],
+      "insight": "取消验证采用异步信号而非同步回滚，需客户端自行管理后续证明，表明多级确认流程中状态一致性依赖客户端协作。",
+      "experiment": "对同一worker并发发送archive和delete请求，观察错误码及worker生命周期是否受控于所有者。",
+      "caveat": "基于README文档，未验证实现细节；实际行为可能随版本变化。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:03.867546+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "5243f14700d5613d973d",
+      "url": "https://github.com/openai/codex/tree/3d3df0a0cad5d3d8d3340b633787e9dd304ea463",
+      "title": "openai/codex · 代码观察",
+      "org": "OpenAI",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "tools",
+        "orchestration"
+      ],
+      "sourceId": "openai/codex",
+      "repo": "openai/codex",
+      "revision": "3d3df0a0cad5",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/openai/codex/blob/3d3df0a0cad5d3d8d3340b633787e9dd304ea463/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "OpenAI Codex CLI：本地运行但依赖云端模型的编码代理",
+      "summary": "Codex CLI 是 OpenAI 的编码代理，本地运行但依赖云端模型。近期更新加强凭证代理、提高审核限制、改进线程分叉及 SDK 发布流程。",
+      "facts": [
+        "Codex CLI 声称本地运行，但需云账号或 API key 认证。",
+        "近提交将 Guardian 动作审核限制从 8000 提高到 200000 字节，stdin 审批仍限 8000 字节。",
+        "凭证代理支持环境变量、静态 URL 前缀及多种认证，并限制替换作用域。"
+      ],
+      "insight": "该代理主要降低防护墙，实质安全依赖云端审查与凭证代理机制，设计时需平衡本地执行与云端策略。",
+      "experiment": "对照实验：设置 GUARDIAN_MAX_ACTION_BYTES 为 8000 与 200000，分别执行包含大文件的提交任务，观察审批延迟与拒绝率。",
+      "caveat": "事实仅来自 README 和提交标题，未验证代码实现，代理实际行为需测试确认。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:23:59.132044+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "096ee223dba8a61a05cd",
+      "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.67",
+      "title": "langchain-ai/deepagents · deepagents-code==0.1.67",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-09-09",
+      "themes": [
+        "runtime",
+        "context"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "deepagents-code==0.1.67",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.67"
+        }
+      ],
+      "titleZh": "deepagents-code 0.1.67：工作区隔离与线程恢复限制",
+      "summary": "发布0.1.67，强化工作区隔离、限制线程恢复年龄、复用服务器，并修复沙箱与事件循环问题。",
+      "facts": [
+        "发布支持GPT-6 Astra模型。",
+        "项目策略和dotenv按工作区分隔，LangSmith认证与追踪隔离。",
+        "限制线程恢复年龄，复用服务器跨工作区切换。"
+      ],
+      "insight": "加强工作区隔离可能减少上下文串扰，适合多项目并行场景；线程恢复限制有助于控制长会话状态，但需评估兼容性。",
+      "experiment": "对比0.1.66与0.1.67在切换工作区时：观察环境变量加载、追踪数据隔离与恢复旧线程的成功率。",
+      "caveat": "基于release notes，未验证实际代码；功能实现细节未公开。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:23:47.513070+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f73ce6b70aaf0e0107da",
+      "url": "https://github.com/langchain-ai/langgraph/tree/3299a1f563fd90351230822682650401db78c566",
+      "title": "langchain-ai/langgraph · 代码观察",
+      "org": "LangChain",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "langchain-ai/langgraph",
+      "repo": "langchain-ai/langgraph",
+      "revision": "3299a1f563fd",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/langchain-ai/langgraph/blob/3299a1f563fd90351230822682650401db78c566/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "LangGraph低层编排框架：有状态Agent的持久执行与人工介入",
+      "summary": "LangGraph定位于构建长时运行、有状态Agent的低层编排框架，支持持久执行、人工介入、记忆及生产部署，可独立或与LangChain生态集成使用。",
+      "facts": [
+        "LangGraph定位为低层编排框架，用于构建、管理和部署长期运行的有状态Agent，灵感来自Pregel、Apache Beam，接口借鉴NetworkX。",
+        "宣称支持持久执行，可在故障后自动从断点恢复；支持人工介入，可在执行中检查修改状态；含跨会话长期记忆。",
+        "可与LangChain、LangSmith及专属部署平台集成，能独立于LangChain使用，且有JS/TS版本。"
+      ],
+      "insight": "对于harness设计，LangGraph的图式持久化与中断恢复模型值得借鉴，尤其适合需要人工审批或容错恢复的Agent任务；但其内存与状态管理较重，轻量任务或需权衡。",
+      "experiment": "构建一个带人工审批节点的多步Agent，分别用LangGraph和简易循环实现，比较中断恢复时间、状态一致性及失败恢复成功率。",
+      "caveat": "基于README文档描述，未验证具体实现细节；性能、恢复机制等需查看实际代码。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:13:09.735991+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "90a2ce4255568f2f9519",
+      "url": "https://github.com/langchain-ai/deepagents/tree/a4905a2fe555fef3cd01563392f87c0446acd8aa",
+      "title": "langchain-ai/deepagents · 代码观察",
+      "org": "LangChain",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "a4905a2fe555",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/langchain-ai/deepagents/blob/a4905a2fe555fef3cd01563392f87c0446acd8aa/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "LangChain Deep Agents：开箱即用的Agent Harness",
+      "summary": "Deep Agents是LangChain开源Agent harness，基于LangGraph构建，声称开箱即用且可扩展，内置子代理、文件系统、上下文管理等特性。",
+      "facts": [
+        "Deep Agents是LangChain开源的Agent harness，基于LangGraph构建，宣称支持流式、持久化与检查点。",
+        "该harness宣称可扩展，允许覆盖或替换任何组件，无需fork，并支持任意支持工具调用的模型。",
+        "它宣称具备子代理、文件系统访问、上下文管理、Shell访问、持久记忆、人机协作及技能等内置能力。"
+      ],
+      "insight": "此harness通过内置上下文管理和子代理隔离上下文，可能解决长任务中的状态管理问题。实际效果依赖LLM遵循工具调用约定；若不使用LangGraph生态，集成成本可能较高。",
+      "experiment": "对照实验：使用GPT-4或开源模型，在同一多步编码任务上分别运行Deep Agents与自建简化harness，各执行10次，比较成功率与总token消耗。",
+      "caveat": "本文仅依据README声明，未验证实现。具体性能与特性需查阅文档及实际测试，且依赖LangChain生态。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:53.350375+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "681d17e62ead154de8c3",
+      "url": "https://github.com/openai/openai-agents-python/tree/25af629b3c877ba3d0e95189141bb636b21167a5",
+      "title": "openai/openai-agents-python · 代码观察",
+      "org": "OpenAI",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "openai/openai-agents-python",
+      "repo": "openai/openai-agents-python",
+      "revision": "25af629b3c87",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/openai/openai-agents-python/blob/25af629b3c877ba3d0e95189141bb636b21167a5/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "OpenAI Agents SDK：多智能体工作流框架的Python实现",
+      "summary": "OpenAI Agents SDK是构建多智能体工作流的轻量级框架，支持多种运行模式，包括文本、沙箱、实时和语音，并提供工具、护栏、人工介入、会话管理和追踪等核心功能。",
+      "facts": [
+        "OpenAI Agents SDK是提供者无关的，支持OpenAI Responses和Chat Completions API，以及100多个其他LLM。",
+        "SDK包含Agents、Sandbox agents、Realtime agents、Voice agents、Tools、Guardrails、Human in the loop、Sessions和Tracing等核心概念。",
+        "SDK支持文本、沙箱、实时和语音四种主要运行方式，并提供了相应的Python代码示例。"
+      ],
+      "insight": "该SDK为构建复杂多智能体系统提供了模块化组件，但实际性能取决于所使用的基础LLM和外部工具，其沙箱和实时功能可能引入额外资源开销，适用于需要灵活编排并集成外部服务的场景。",
+      "experiment": "分别使用SDK的文本Agent和SandboxAgent执行相同任务（如代码审查），比较两者的响应时间、成功率及结果质量，以评估沙箱必要性。",
+      "caveat": "README描述的仅为文档声明，未经验证；实现细节和性能需通过实际测试。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:34.210517+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "b87e2bb7e74854522489",
+      "url": "https://github.com/google/adk-python/tree/0673f0548f30c5fd42280553123582c4e4ef1e95",
+      "title": "google/adk-python · 代码观察",
+      "org": "Google",
+      "kind": "code",
+      "published": "2026-09-09",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "0673f0548f30",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/google/adk-python/blob/0673f0548f30c5fd42280553123582c4e4ef1e95/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Google ADK 2.0：图工作流与任务API的代码优先框架",
+      "summary": "ADK从1.x升级至2.0，API、事件模型与会话模式破坏性变更，新增图工作流运行时与任务API，支持多智能体分层、工具确认流。",
+      "facts": [
+        "ADK 2.0引入图执行引擎，支持路由、扇出/扇入、循环、重试、状态管理、动态节点与人机协同。",
+        "提供任务API，支持智能体间多轮、单轮受控输出、混合授权模式及作为工作流节点。",
+        "2.0会话其1.28及以后版本可读，但早期1.x不兼容，API破坏性变更。"
+      ],
+      "insight": "工程上若需确定性生成与智能体协同，可借鉴图式编排；任务API简化层级委派；工具确认提供安全闸口，但需权衡用户体验。",
+      "experiment": "构建两个智能体链式调用，A生成任务，B处理；对比使用任务API与手动循环调用，测量响应延迟、调用次数与成功率。",
+      "caveat": "README宣称特性不等于已验证实现；基于代码仓库，未运行验证；破坏性变更可能影响现有1.x项目迁移。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:28.285307+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "110f447ef0ae682fb488",
+      "url": "https://arxiv.org/abs/2609.08175v1",
+      "title": "Safe Harness Self-Evolution: A Theoretical Analysis of Feasibility and Limits",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "evaluation",
+        "evolution"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "安全自主演化可行性：修改生成与有限数据认证的理论分析",
+      "summary": "针对冻结底层LLM的harness自主演化，理论分析其可行性，建立奖励提升与安全采纳的条件，指出生成与认证分离导致停滞。",
+      "facts": [
+        "Harness self-evolution modifies prompts, tools, code, or orchestration, freezing the model, changes persisting across tasks.",
+        "Current task performance does not determine the probability of generating qualified modifications.",
+        "Worst-case evaluation cost for recognizing genuine improvements diverges as expected reward approaches its upper bound."
+      ],
+      "insight": "工程中生成更多候选不一定提升更新保证，瓶颈常在评估而非生成；需设计可认证的有限数据选择机制，并监测停滞信号以判断是否需调整策略。",
+      "experiment": "在固定任务分布下，比较增加候选数与改进评估器精度对成功更新率的影响，观察奖励提升与安全指标变化。",
+      "caveat": "仅基于论文摘要分析，未涉及具体实现与实验验证。",
+      "relevance": 96,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:14.307156+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.08175v1"
+        }
+      ]
+    },
+    {
+      "id": "27fca29a7ac1db58db20",
+      "url": "https://arxiv.org/abs/2609.08183v1",
+      "title": "NeoHorse-1: Towards Recursive Self-Improvement via Agentic Post-Training with Routing Harness",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "evaluation",
+        "evolution"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "NeoHorse-1：通过路由机制实现智能体后训练的递归自我改进",
+      "summary": "NeoHorse-1提出基于路由的闭环训练：记录请求路由与服务选择，转为训练样本，经验证和标签后构成三阶段课程，并支持路由引导的蒸馏，实现评估-选择-更新循环。",
+      "facts": [
+        "系统结合异质模型池与智能路由，记录每轮的能力需求、服务层级和交互。",
+        "训练数据经结构验证和六维语义评估，并按子场景标注。",
+        "后训练将宏观平均分从58.94提升至64.87（4B），及从65.60至69.04（9B）。"
+      ],
+      "insight": "路由信号可用于构造训练数据，可能替代人工标注，降低数据成本；但依赖路由质量，适用于具反馈通道的迭代训练场景。",
+      "experiment": "对照组：固定随机路由记录训练 vs 采用预测需求路由；观察两组的基准准确率与训练迭代收敛速度。",
+      "caveat": "仅基于摘要，数据为作者报告，未验证具体实现与评估细节。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:24:20.875347+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.08183v1"
+        }
+      ]
+    },
+    {
+      "id": "81f86a6b6943762fa321",
+      "url": "https://arxiv.org/abs/2609.08355v1",
+      "title": "RepoNav: From Snippet Retrieval to File-Centered Repository Navigation for Code Agents",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "context",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "RepoNav：从代码片段检索到以文件为中心的仓库导航",
+      "summary": "论文提出RepoNav，一种轻量级后检索界面，将检索片段重组为文件中心导航脚手架，帮助代码代理定位目标函数，提升仓库级代码任务性能。",
+      "facts": [
+        "RepoNav是一种轻量级后检索界面，将检索到的代码片段重组为以文件为中心的导航脚手架。",
+        "该脚手架提供紧凑的结构线索和候选目标，引导按需的文件结构浏览，帮助代理比较同级符号以选择目标函数。",
+        "在多样模型上的LocBench实验中，RepoNav改进了函数级定位，并缩小了文件到函数的差距。"
+      ],
+      "insight": "基于摘要推断，设计代理工具时，考虑代码检索结果的结构化呈现（如文件内导航），可能比增加检索数量更有效；需要关注文件内符号区分能力。",
+      "experiment": "对比传统扁平列表检索与RepoNav界面，使用相同LLM代理在LocBench上进行函数定位，观察准确率差异。",
+      "caveat": "仅基于论文摘要，未验证完整实验结果；性能数据仅源自摘要，且可能受特定基准限制。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:14.465046+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.08355v1"
+        }
+      ]
+    },
+    {
+      "id": "ee30880697088fc26b12",
+      "url": "https://arxiv.org/abs/2609.08371v1",
+      "title": "Authority Is Not a String: A Capability-Scoped Harness for Prompt-Injection-Resistant Coding Agents",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "CapScope：面向编码代理的基于能力的注入防护机制",
+      "summary": "论文提出CapScope，一种harness级授权机制，通过任务范围的权限上限和类型化能力限制工具调用，以抵御提示注入攻击。在修复工作流中，其注入成功率大幅降低，而任务完成率基本不变。",
+      "facts": [
+        "CapScope在读取仓库内容或工具输出前，从可信输入推导任务级权限上限。",
+        "每个子代理分配独立的能力集，存储在模型上下文之外，工具调用需检查能力。",
+        "在Python任务、5个注入面、4种授权条件、3次试验（共300次运行）中，CapScope下注入效果执行3/75次，基线为33-47/75次。",
+        "CapScope完成68/75次修复，基线完成68-72/75次。"
+      ],
+      "insight": "该机制表明，将权限决策从模型推理中分离并置于harness层，可有效缓解间接注入。但需注意，任务级上限源于可信输入，若用户指令本身不可信或需要动态权限，可能限制灵活性。",
+      "experiment": "在修复代理中对照三种配置：环境权限、全局策略和CapScope，在相同任务集上测量注入成功率和修复成功率。观察CapScope在保持修复率的同时降低注入成功率。",
+      "caveat": "仅基于论文摘要，未验证实现细节。评估限于Python修复任务，且未报告基线修复质量的差异。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:24:10.078438+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.08371v1"
+        }
+      ]
+    },
+    {
+      "id": "03061493556813e52972",
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.265",
+      "title": "anthropics/claude-code · v2.1.265",
+      "org": "Anthropic",
+      "kind": "release",
+      "published": "2026-09-08",
+      "themes": [
+        "tools",
+        "runtime",
+        "orchestration"
+      ],
+      "sourceId": "anthropics/claude-code",
+      "repo": "anthropics/claude-code",
+      "revision": "v2.1.265",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.265"
+        }
+      ],
+      "titleZh": "Claude Code v2.1.265：插件目录动态加载与工具结果磁盘上限",
+      "summary": "此版本新增插件文件夹支持、工具结果1GB上限，并修复多项缓存重用、远程会话及UI问题。",
+      "facts": [
+        "--plugin-dir 支持文件夹，子插件可热加载。",
+        "工具结果存盘上限1GB，截断时显示预览。",
+        "修复后台会话空闲超时误终止问题。"
+      ],
+      "insight": "热加载插件目录利于动态扩展，但需注意平台权限；工具结果上限提示需在UI明确，防止大结果影响循环。",
+      "experiment": "创建含多个插件的目录，运行时增减插件，观察加载状态与响应延迟变化。",
+      "caveat": "基于发布说明，未验证实际运行效果；部分修复针对特定场景。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:06.313499+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "c54b1ebf908702482a25",
+      "url": "https://arxiv.org/abs/2609.08472v1",
+      "title": "Beyond Agent Harnesses: Cross-Substrate Authority for Multi-Agent Systems",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "跨基板授权差距：代理记忆治理的执行边界",
+      "summary": "论文指出授权信息若存于工作区或记忆之外，规划器可能做出错误安全决策，提出在执行边界检查权威状态。",
+      "facts": [
+        "论文提出跨基板授权差距概念，即决策相关信息位于规划器可见状态之外。",
+        "实验1显示无权威证据时成功率0/32，有完整权威证据时32/32。",
+        "实验3中确定性执行守卫阻止全部6个不安全意图，允许12个有效意图。"
+      ],
+      "insight": "单纯增加规划器信息不足，应在变更边界强制权威检查。但此为基于摘要的推断，原论文摘要仅给出基准测试结果。",
+      "experiment": "比较两个代理系统：一个仅增强规划观察，另一个在执行加守卫，在相同任务上测量安全性和成功率。",
+      "caveat": "仅基于论文摘要，未完整审阅；具体实现和基准细节未知。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:05.239553+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.08472v1"
+        }
+      ]
+    },
+    {
+      "id": "9f6c5c8aa766c6f70a5c",
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.266",
+      "title": "anthropics/claude-code · v2.1.266",
+      "org": "Anthropic",
+      "kind": "release",
+      "published": "2026-09-08",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "anthropics/claude-code",
+      "repo": "anthropics/claude-code",
+      "revision": "v2.1.266",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.266"
+        }
+      ],
+      "titleZh": "Claude Code 修复网关配置回归问题",
+      "summary": "修复2.1.265引入的回归：CLAUDE_CODE_USE_GATEWAY单独设置时不再强制云端登录，需配合ANTHROPIC_BASE_URL和AUTH_TOKEN才生效。",
+      "facts": [
+        "2.1.265中CLAUDE_CODE_USE_GATEWAY单独设置会强制云端网关登录，导致请求失败。",
+        "该变量正常情况下仅在同时设置ANTHROPIC_BASE_URL和ANTHROPIC_AUTH_TOKEN时生效。",
+        "修复后该变量单独设置时被忽略，无需更改配置。"
+      ],
+      "insight": "环境变量在代理和网关配置中的行为可能受版本影响，harness设计应显式管理此类变量的作用域，避免隐式默认行为导致配置错误。",
+      "experiment": "分别设置CLAUDE_CODE_USE_GATEWAY及组合环境变量，在不同版本或配置下观察请求是否触发登录或成功，记录失败率。",
+      "caveat": "仅依据发布说明，未验证实际行为，且此变更针对特定代理工具，不直接适用于其他harness。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:00.929241+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "d9e2655013e714ed1add",
+      "url": "https://github.com/anthropics/claude-code/tree/347b38e4a733d95b2f00690a4ca58ac1544f8a1c",
+      "title": "anthropics/claude-code · 代码观察",
+      "org": "Anthropic",
+      "kind": "code",
+      "published": "2026-09-08",
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "anthropics/claude-code",
+      "repo": "anthropics/claude-code",
+      "revision": "347b38e4a733",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/anthropics/claude-code/blob/347b38e4a733d95b2f00690a4ca58ac1544f8a1c/README.md"
+        },
+        {
+          "label": "CHANGELOG.md",
+          "url": "https://github.com/anthropics/claude-code/blob/347b38e4a733d95b2f00690a4ca58ac1544f8a1c/CHANGELOG.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Claude Code更新：修复缓存、权限与远程会话问题",
+      "summary": "Claude Code 2.1.266 等版本修复多项回归，改进子代理恢复、插件加载、远程会话与权限检查，并增强遥测与网关行为。",
+      "facts": [
+        "版本2.1.265修复了前台生成的子代理恢复时改变工具列表和系统提示前缀，破坏提示缓存复用的问题。",
+        "新增设置bashOutputMaxChars和taskOutputMaxChars，可提高命令输出内联上限至128K字符。",
+        "新增/skill-doctor命令，显示已加载但未使用的技能及其上下文成本。"
+      ],
+      "insight": "变更显示运行循环稳定性优先：恢复路径需保持确定性提示前缀以利缓存，权限检查处理符号链接、路径边界；远程会话还需处理超时与事件顺序。工程上应重视恢复语义和提示稳定性，非仅功能添加。",
+      "experiment": "对比2.1.264与2.1.266，在子代理运行中断后恢复并执行相同任务，测量提示缓存命中率与重放token数。",
+      "caveat": "基于README和CHANGELOG文档，未验证实际实现；性能数据仅作者报告。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:23:50.592475+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "35da8e285315d3b2e527",
+      "url": "https://github.com/anthropics/claude-agent-sdk-python/tree/6bbd3093147c2fadcd4b868599b8fb6d9db3d523",
+      "title": "anthropics/claude-agent-sdk-python · 代码观察",
+      "org": "Anthropic",
+      "kind": "code",
+      "published": "2026-09-08",
+      "themes": [
+        "tools",
+        "orchestration"
+      ],
+      "sourceId": "anthropics/claude-agent-sdk-python",
+      "repo": "anthropics/claude-agent-sdk-python",
+      "revision": "6bbd3093147c",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/blob/6bbd3093147c2fadcd4b868599b8fb6d9db3d523/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Claude Agent SDK Python：进程内工具与钩子扩展",
+      "summary": "描述Python版Claude Agent SDK，支持异步查询，允许自定义工具和钩子，通过进程内MCP服务器简化部署。",
+      "facts": [
+        "SDK自动捆绑Claude Code CLI，无需单独安装。",
+        "允许工具和钩子定义为Python函数，提供进程内MCP服务器。",
+        "提供ClaudeSDKClient以支持交互对话及自定义工具钩子。"
+      ],
+      "insight": "进程内工具可能减少IPC开销，适合工具密集工作流，但依赖Python环境，通用性受限。",
+      "experiment": "对比自定义工具经进程内与外部MCP的响应延迟与吞吐量。",
+      "caveat": "依据README，未验证实现；功能细节可能随版本变化。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:13:09.706071+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "c7fdd7cb839b78f1aa00",
+      "url": "https://arxiv.org/abs/2609.09133v1",
+      "title": "ExecCritic: Learn to Test, Test to Improve for Coding Agents",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "evaluation",
+        "tools",
+        "evolution"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "ExecCritic：编码代理的测试学习与改进测试",
+      "summary": "通过分离测试生成与代码修复并采用角色特定强化学习，提高编码代理在仓库修复中的性能，解决测试与补丁错误一致问题。",
+      "facts": [
+        "ExecCritic分测试与修复双代理，测试代理生成测试并冻结，修复代理据反馈改代码。",
+        "基础修复代理固定时，基础测试使解决率从61.2%降至57.3%，而GPT-5.6-sol测试升至65.3%。",
+        "角色特定训练使Qwen测试代理Base-to-Gold从22.2%升至62.2%，组合代理达72.6%，较无测试基线提升11.4点。"
+      ],
+      "insight": "该结果表明，测试质量是反馈有效性的关键，分离测试与修复可避免错误一致性。适用于任务描述明确且有可靠执行环境的场景，可能需大量训练资源。",
+      "experiment": "对比基线：固定修复代理，分别用基础、训练后、外部模型测试，观察SWE-bench Verified解决率及测试有效性。",
+      "caveat": "基于论文摘要，未验证实现；增强依赖角色训练，且非所有环境可复现。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:13:05.676171+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.09133v1"
+        }
+      ]
+    },
+    {
+      "id": "62b48e0ca0aeca994cac",
+      "url": "https://arxiv.org/abs/2609.09134v1",
+      "title": "Co-Evolving Harnesses and Models: On-Policy Correction Helps Weaker Models Catch Up Where Imitation Fails",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-08",
+      "themes": [
+        "context",
+        "evaluation",
+        "evolution"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "协同演化agent harness与模型：在线策略纠错帮助弱模型追赶",
+      "summary": "自动演化harness可提升弱模型表现，但用专家完整轨迹模仿训练会破坏模型与harness的适配，导致性能下降。开发在线纠错管道，仅重写失败回合，保持规划风格，结合两者优势。",
+      "facts": [
+        "在七个企业agent任务中，先用弱模型演化harness，发现强专家能更有效使用它。",
+        "在演化后的harness下，用专家完整轨迹训练弱模型，所有七个任务性能下降4至30点（Qwen3-Coder和Gemma 4）。",
+        "模仿增加脚手架使用但破坏模型-harness适配，弱模型采用专家规划策略却无执行能力，不再匹配原生规划风格。",
+        "开发由元级MLE代理自动化的在线专家纠错管道，仅定位并重写弱模型自身轨迹中失败回合。"
+      ],
+      "insight": "harness演化应围绕目标模型能力展开，当两者不匹配时，权重更新需保持行为风格，仅修正局部错误，而非整体模仿；融合需以兼容性为约束。",
+      "experiment": "对照实验：在固定演化harness下，A组：全轨迹模仿训练；B组：在线专家纠错训练；测量最终任务成功率及规划风格偏离度。",
+      "caveat": "仅基于论文摘要，未验证实现细节；效果仅限于七个企业任务，不适用于未演化harness或不同模型家族。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:57.523849+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.09134v1"
+        }
+      ]
+    },
+    {
+      "id": "52cef0c70f5575cec8d1",
+      "url": "https://github.com/openai/openai-agents-python/releases/tag/v0.22.1",
+      "title": "openai/openai-agents-python · v0.22.1",
+      "org": "OpenAI",
+      "kind": "release",
+      "published": "2026-09-08",
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "openai/openai-agents-python",
+      "repo": "openai/openai-agents-python",
+      "revision": "v0.22.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/openai/openai-agents-python/releases/tag/v0.22.1"
+        }
+      ],
+      "titleZh": "OpenAI Agents Python 0.22.1：沙箱、MCP与恢复机制增强",
+      "summary": "该版本新增 web 搜索图片、输出护栏自定义、MCP 全局护栏及 Unix 本地沙箱隔离，修复会话恢复、追踪、语音及工具参数等大量问题。",
+      "facts": [
+        "支持 web 搜索工具返回图片结果。",
+        "输出护栏可自定义被阻断时的消息。",
+        "新增 Unix 本地环境隔离的沙箱配置。"
+      ],
+      "insight": "大量会话恢复与沙箱修复表明系统向长时运行和高可靠性演进，harness 设计需加强状态持久化与失败恢复，尤其是防重复写入和取消时的清理。",
+      "experiment": "设计压力测试：模拟运行中会话写入失败，观察恢复后工具护栏结果与手写记录是否正确持久化，对比修复前后。",
+      "caveat": "变更列表为仓库 PR 归纳，未经源码验证；实现细节及行为改变需查官方文档与代码。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:53.834506+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "961d0084bebb53ba925e",
+      "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.59.0",
+      "title": "google-gemini/gemini-cli · v0.59.0",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-09-08",
+      "themes": [
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "google-gemini/gemini-cli",
+      "repo": "google-gemini/gemini-cli",
+      "revision": "v0.59.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.59.0"
+        }
+      ],
+      "titleZh": "Gemini CLI v0.59.0 修复 MCP 安全与信任边界",
+      "summary": "Gemini CLI 发布 v0.59.0，修复 MCP OAuth 元数据发现中的 SSRF 漏洞，限制工作区信任与 MCP 服务器过滤，强化安全。",
+      "facts": [
+        "修复 MCP OAuth 元数据发现与认证中的 SSRF 漏洞。",
+        "在受限模式下强制失败关闭的工作区信任，并过滤 MCP 服务器。",
+        "该变更来自 v0.59.0 发布说明。"
+      ],
+      "insight": "修复说明未来 agent 工具需默认最小信任，MCP 配置应隔离不可信源；对 harness 设计，需考虑信任边界与网络请求白名单。",
+      "experiment": "对比 v0.58 与 v0.59，配置指向内网地址的 MCP 元数据，观察认证请求是否被阻止。",
+      "caveat": "基于发布说明，具体漏洞细节与利用条件需查源码。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:48.606969+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "e737368a6a8fba2cd353",
+      "url": "https://github.com/google-gemini/gemini-cli/tree/ed2ac40df67a319bf348bd7e3d10494696b31b38",
+      "title": "google-gemini/gemini-cli · 代码观察",
+      "org": "Google",
+      "kind": "code",
+      "published": "2026-09-08",
+      "themes": [
+        "tools",
+        "runtime",
+        "orchestration"
+      ],
+      "sourceId": "google-gemini/gemini-cli",
+      "repo": "google-gemini/gemini-cli",
+      "revision": "ed2ac40df67a",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/google-gemini/gemini-cli/blob/ed2ac40df67a319bf348bd7e3d10494696b31b38/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Gemini CLI开源终端AI代理：功能与近期安全修复概览",
+      "summary": "Gemini CLI开源，提供终端AI代理，支持MCP、多种认证，并具备非交互模式。近期提交显示多项安全修复，如沙箱隔离、配置权限检查。",
+      "facts": [
+        "Gemini CLI是开源AI代理，Apache 2.0许可，提供免费层：每分钟60次请求，每天1000次。",
+        "支持MCP自定义集成，内置Google Search grounding、文件操作、shell命令和网页获取。",
+        "提供非交互模式headless，支持JSON和stream-json输出，适合脚本自动化。"
+      ],
+      "insight": "若构建harness，可参考其非交互模式与流式输出设计，并借鉴沙箱及权限检查等安全措施，但需验证其实际效果。",
+      "experiment": "设计对比实验：在沙箱环境中运行Gemini CLI与自研harness执行相同MCP工具集，记录失败率与工具调用延迟，评估隔离性。",
+      "caveat": "基于README及commit标题，未验证实现细节，安全修复的实际有效性需代码审查确认。",
+      "relevance": 80,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:39.262588+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "b5c961f1bded995a1b36",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/tree/5dda764ed3aa172535a7967b06ff95d9cbfe536a",
+      "title": "deepseek-ai/deepseek-harness · 代码观察",
+      "org": "DeepSeek",
+      "kind": "code",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "deepseek-ai/deepseek-harness",
+      "repo": "deepseek-ai/deepseek-harness",
+      "revision": "5dda764ed3aa",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5dda764ed3aa172535a7967b06ff95d9cbfe536a/README.md"
+        },
+        {
+          "label": "docs/architecture.md",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5dda764ed3aa172535a7967b06ff95d9cbfe536a/docs/architecture.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "DeepSeek Harness 插件化代理架构与运行模式",
+      "summary": "DeepSeek 开源代理框架 dsh，基于 Cordis 插件架构，支持配置化扩展模型、工具及代理循环，提供 web、headless、SDK、ACP 等预置应用。",
+      "facts": [
+        "DeepSeek Harness (dsh) 为开源代理框架，采用“一切皆插件”架构，基于 Cordis 构建，由 DeepSeek AI 开发。",
+        "预置 profile 模板有 web、headless、sdk、sdk-minimal、acp；dsh-base 是共享基础层，包含模型适配器、工具、持久化等。",
+        "代理流程定义 step 为一次模型请求及其工具调用，事件分为会话事件（持久）与活动事件（agent/* 等）作为扩展点。"
+      ],
+      "insight": "面向 agent-harness 的工程推断：采用插件树与事件驱动的架构，可能便于灵活替换组件，但依赖 Cordis 框架，学习成本较高；预置 profile 分层组合，适合需要定制化 agent 流程的场景。",
+      "experiment": "对比 dsh web 与自定义 profile（如替换模型适配器）运行同一任务，观察扩展灵活性与性能影响，以配置修改时间与任务完成率作指标。",
+      "caveat": "本资料仅来自 README 与架构文档，未含代码实现验证；处于开发者预览版，API 可能不兼容。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:31.199688+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "7799a4a7ee78654153be",
+      "url": "https://github.com/OpenHands/OpenHands/tree/c9b6ceac969573d9cd0ef8a8e61ddb3680679671",
+      "title": "OpenHands/OpenHands · 代码观察",
+      "org": "OpenHands",
+      "kind": "code",
+      "published": "2026-09-08",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "All-Hands-AI/OpenHands",
+      "repo": "OpenHands/OpenHands",
+      "revision": "c9b6ceac9695",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/OpenHands/OpenHands/blob/c9b6ceac969573d9cd0ef8a8e61ddb3680679671/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "OpenHands Agent Canvas：自托管编码代理控制中心",
+      "summary": "OpenHands Agent Canvas作为自托管开发控制中心，可运行多种ACP兼容代理，支持本地、Docker、云端等后端，并可创建自动化工作流。",
+      "facts": [
+        "Agent Canvas支持与任何ACP兼容代理配合使用，包括Claude Code、Codex、Gemini等。",
+        "Agent Canvas可连接多个代理后端，例如Docker容器、VM或公司内部基础设施，并在它们之间切换。",
+        "Agent Canvas可作为npm包安装，通过`agent-canvas`命令启动，默认启动完整本地栈。"
+      ],
+      "insight": "Agent Canvas可能适合作为多代理统一入口，通过标准化协议（ACP）和前后端分离架构，简化代理的部署与调度，但具体工作流需适配自有工具生态。",
+      "experiment": "在本地Docker环境部署Agent Canvas，分别用OpenHands和Claude Code执行固定GitHub issue分解任务，对比完成时间和准确率。",
+      "caveat": "README和commit标题不能证明功能实现，文档中提及的集成能力未经验证。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:30.939465+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "1cd66ce61c828b5413d3",
+      "url": "https://arxiv.org/abs/2609.07360v1",
+      "title": "Scanning the Harness: An Empirical Study of Supply-Chain Defects in AI Coding-Agent Configurations",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-07",
+      "themes": [
+        "tools",
+        "evaluation",
+        "runtime"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "AI编码代理Harness供应链的实证安全研究",
+      "summary": "对3171个公开仓库、3171个setup与511个技能集的研究显示：16.0%存在可确认安全缺陷，含未锁定版本、伪装许可及预授权shell等三类风险。",
+      "facts": [
+        "9.8%的setup安装了无版本锁定的MCP服务器。",
+        "3.1%的setup通过如Bash(python:*)等范围似授权预批准任意执行。",
+        "16.0%的setup存在安全缺陷，总确认缺陷率16.7%。"
+      ],
+      "insight": "harness作为无锁文件与运行时检查的信任层，其组合可累积授权，风险随组件数上升；工程上需引入安装时权限清单与最小权限沙箱。",
+      "experiment": "对比100个含多组件的公开setup，检测其共享的组件版本锁定与授权粒度，统计缺陷率与组件数的相关性。",
+      "caveat": "仅基于字节可判定规则，未涵盖动态行为或意图性后门，且未确认凭证泄露路径。",
+      "relevance": 92,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:30.370881+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.07360v1"
+        }
+      ]
+    },
+    {
+      "id": "13de84f3f9e2342441a9",
+      "url": "https://arxiv.org/abs/2609.07925v1",
+      "title": "FrogNano: Training a 4B Coding Agent via Online Task Synthesis",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-07",
+      "themes": [
+        "orchestration",
+        "evaluation"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "FrogNano：通过在线任务合成训练4B编码代理",
+      "summary": "FrogNano是4B编码代理，仅用约1500个SWE环境经RL后训练，通过在线任务合成生成适应当前学习前沿的任务，无需大模型蒸馏。",
+      "facts": [
+        "FrogNano是4B编码代理，专门针对软件工程任务，适合资源受限环境。",
+        "该代理仅通过RL在约1500个SWE环境中训练，使用合成任务。",
+        "报告表明小型编码代理可仅用合成任务训练，无需传统蒸馏，且学习前沿任务生成重要。"
+      ],
+      "insight": "在线任务合成可替代蒸馏，通过自适应生成任务驱动小模型能力提升；适用条件为可迭代的环境模拟和高频评估，需平衡探索与利用。",
+      "experiment": "对比固定任务集与自适应前沿任务集训练，在SWE-bench上测量通过率与学习曲线，观察自适应是否提升样本效率。",
+      "caveat": "仅基于摘要，未提供完整训练和评估细节；性能数据仅限作者报告，未公开验证。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:17.915280+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.07925v1"
+        }
+      ]
+    },
+    {
+      "id": "fea0a7b538a04e1094a8",
+      "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-talon%3D%3D0.0.7",
+      "title": "langchain-ai/deepagents · deepagents-talon==0.0.7",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-09-07",
+      "themes": [
+        "orchestration",
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "deepagents-talon==0.0.7",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-talon%3D%3D0.0.7"
+        }
+      ],
+      "titleZh": "Deepagents Talon 0.0.7：子代理与MCP配置增强",
+      "summary": "Talon 0.0.7 新增灵活子代理模式、MCP 配置热重载与 OAuth 认证、聊天历史存储与混合搜索，并改进 cron 与通道可靠性。",
+      "facts": [
+        "新增可消耗后台子代理、fork 模式 dcode 风格子代理及全新子代理，并支持按任务选择工具。",
+        "添加 MCP 配置工具，支持通道级授权、热重载，以及 Slack/GitHub 的 OAuth/设备认证。",
+        "引入持久化 LangGraph 检查点，并新增聊天范围内的对话历史存储，可选混合搜索。"
+      ],
+      "insight": "子代理的多种执行模式和按任务工具选择可能提升复杂任务的资源利用率，但需平衡上下文隔离与编排开销；MCP 配置热重载减少停机，但需审计授权变更。",
+      "experiment": "在相同任务集上对比固定子代理配置与按任务选择工具，测量完成时间、成功率及 token 消耗。",
+      "caveat": "基于发布说明与提交记录，未经验证实现细节；实际效果受任务类型与配置影响。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:23:58.743920+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "155ec56ec5e126ff129b",
+      "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.30.0",
+      "title": "modelcontextprotocol/python-sdk · v1.30.0",
+      "org": "MCP",
+      "kind": "release",
+      "published": "2026-09-07",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "modelcontextprotocol/python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "revision": "v1.30.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.30.0"
+        }
+      ],
+      "titleZh": "MCP Python SDK 1.30.0 发布：重定向与空闲会话策略更新",
+      "summary": "MCP Python SDK 1.x 的维护版本，修改默认行为：HTTP重定向仅限同源，空闲会话超时关闭，OAuth客户端校验issuer，并新增相关配置项。",
+      "facts": [
+        "HTTP客户端仅跟随同源重定向，否则抛出httpx.HTTPStatusError。",
+        "空闲Streamable HTTP会话30分钟无活动即关闭，服务器最多同时保持10000个会话。",
+        "OAuth客户端校验授权服务器元数据issuer，不匹配则拒绝流程。"
+      ],
+      "insight": "这些默认收紧可提高安全性，但可能破坏依赖跨域重定向或长空闲连接的应用；如设计harness需支持外部服务，应主动设置端点或调整超时。",
+      "experiment": "使用旧版客户端连接本SDK服务，观察重定向是否被拒绝及空闲会话是否被关闭；对比新旧行为。",
+      "caveat": "基于发布说明，未验证实现细节；可能针对1.x分支，2.x行为可能不同。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:51.164696+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "dafe5c0295f8273a8c90",
+      "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0",
+      "title": "modelcontextprotocol/python-sdk · v2.2.0",
+      "org": "MCP",
+      "kind": "release",
+      "published": "2026-09-07",
+      "themes": [
+        "runtime",
+        "orchestration",
+        "evaluation"
+      ],
+      "sourceId": "modelcontextprotocol/python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "revision": "v2.2.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0"
+        }
+      ],
+      "titleZh": "MCP Python SDK v2.2.0: 默认行为变更",
+      "summary": "更新了重定向、会话超时、OAuth issuer 校验等默认安全行为，并新增 validation 相关配置。",
+      "facts": [
+        "HTTP 客户端仅在同一 origin 或 http 升级 https 时遵循重定向，否则报错且会话保持可用。",
+        "空闲 Streamable HTTP 会话 30 分钟过期，并发会话上限 10000，可配置关闭。",
+        "OAuth 客户端校验授权服务器 issuer，不匹配时抛出 OAuthFlowError。"
+      ],
+      "insight": "这些默认收紧提示 MCP 服务实现需考虑外部客户端可能因跨域重定向失败而要求显式指定端点；长连接会话需内置心跳或自动重连；OAuth 配置需包含 issuer 字段以兼容未来版本。",
+      "experiment": "在服务端设置 session_idle_timeout=60 秒，客户端发起长请求后等待超时，观察下个请求是否收到 404 并触发重新初始化，记录恢复成功率。",
+      "caveat": "基于发布说明，非代码验证；实际行为可能受具体配置影响。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:42.060800+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "c515b461bb1fcb70dbc2",
+      "url": "https://github.com/modelcontextprotocol/python-sdk/tree/9972c21aa42054fb1450c5fc614761ed11847ec6",
+      "title": "modelcontextprotocol/python-sdk · 代码观察",
+      "org": "MCP",
+      "kind": "code",
+      "published": "2026-09-07",
+      "themes": [
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "modelcontextprotocol/python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "revision": "9972c21aa420",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/blob/9972c21aa42054fb1450c5fc614761ed11847ec6/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "MCP Python SDK v2重构：支持新规范与类型化工具",
+      "summary": "MCP Python SDK发布v2，重构支持2026-07-28规范，简化API，自动生成JSON Schema，保持v1分支维护。",
+      "facts": [
+        "MCP Python SDK v2为重大重构，支持2026-07-28规范及早期版本。",
+        "v2中不写JSON Schema，类型化函数自动生成，无需请求解析等。",
+        "v1.x分支继续维护，pip install mcp现为2.x，需上界限制。"
+      ],
+      "insight": "v2面向AI agent交互，简化服务器客户端开发，可能适合快速集成工具，但需验证与新规范的兼容性。",
+      "experiment": "用v2构建简单工具服务器，对比v1实现代码量与调用延迟，观测开发效率。",
+      "caveat": "仅基于README，实现细节未验证；v2变更可能引入迁移成本。",
+      "relevance": 70,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:30.866379+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "d0623d2080e1bc41f59a",
+      "url": "https://github.com/langchain-ai/deepagents/releases/tag/langchain-quickjs%3D%3D0.3.7",
+      "title": "langchain-ai/deepagents · langchain-quickjs==0.3.7",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-09-06",
+      "themes": [
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "langchain-quickjs==0.3.7",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/deepagents/releases/tag/langchain-quickjs%3D%3D0.3.7"
+        }
+      ],
+      "titleZh": "langchain-quickjs 0.3.7：流式PTC调用与私有状态隔离",
+      "summary": "langchain-quickjs发布0.3.7，新增原生流式PTC工具调用，并修复子代理传播时私有状态泄漏问题。",
+      "facts": [
+        "langchain-quickjs 0.3.7提供原生流式PTC工具调用功能。",
+        "该版本修复了子代理传播时私有状态未保持私有的问题。",
+        "版本更新包括提升依赖最低版本要求。"
+      ],
+      "insight": "对harness设计，流式PTC调用可降低工具等待延迟，私有状态隔离则保障多代理上下文安全。但需验证其API兼容性及状态拷贝机制。",
+      "experiment": "构建两个子代理共享父状态场景，启用新版本，观察流式调用下的响应时间间隔及私有字段是否可见于子代理日志。",
+      "caveat": "基于变更日志，未提供代码细节或测试验证。性能改进未量化。",
+      "relevance": 72,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:04.789204+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "21b3158e922c582ce824",
+      "url": "https://arxiv.org/abs/2609.05903v1",
+      "title": "EvoSafeHarness: Evolving Model- and Domain-Specific Harnesses for Securing Agents",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-05",
+      "themes": [
+        "evaluation",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "EvoSafeHarness：面向智能体安全的自进化模型与领域特定约束框架",
+      "summary": "提出针对冻结模型与目标域的安全约束优化框架，通过联合搜索自然语言策略与代码逻辑，提升安全-效用平衡，超越专家固定设计。",
+      "facts": [
+        "EvoSafeHarness联合搜索自然语言策略与可执行代码逻辑，并利用新鲜上下文的对抗评审拒绝基准特定规则。",
+        "在DecodingTrust-Agent上，平均攻击成功率从45.6%降至10.0%，效用成本3.3点。",
+        "在AgentDojo上达到82.8%效用且攻击成功率为0.0%，相同操作点效用为CaMeL的两倍。"
+      ],
+      "insight": "领域语义决定需治理的关系与轨迹状态，模型与运行时行为决定强制执行方式，故约束框架应针对部署环境动态生成。",
+      "experiment": "在固定模型与域中对比EvoSafeHarness与专家设计约束，测量不同严格度下的安全-效用曲线面积。",
+      "caveat": "仅基于论文摘要，未核实完整实现细节与实验严谨性。",
+      "relevance": 88,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:33.333507+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.05903v1"
+        }
+      ]
+    },
+    {
+      "id": "f62d3402ed8789568409",
+      "url": "https://arxiv.org/abs/2609.05736v1",
+      "title": "Beyond Prompts: Measuring and Optimizing LLM Tool-Agent Harnesses",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-09-04",
+      "themes": [
+        "evaluation",
+        "tools",
+        "orchestration"
+      ],
+      "sourceId": "arxiv-harness",
+      "abstractOnly": true,
+      "titleZh": "超越提示词：度量与优化LLM工具代理的harness运行时",
+      "summary": "在不重训模型前提下，通过修改运行时harness（提示词、工具边界中间件、状态处理等）来优化工具代理，并提出带可靠性指标的评估协议。",
+      "facts": [
+        "研究将harness选择限定为固定模型、多轮工具代理，搜索面限于提示词与工具边界中间件，编辑为受保护的拦截。",
+        "提出评估协议报告平均留出提升、最差条件提升、可重复性、成本诊断及RelLift95(B)，用于保守估计预算B下harness的留出收益。",
+        "PRISM优化器在BFCL多轮、tau2-Retail、tau2-Telecom上平均留出提升分别为14.2、14.9、10.1个百分点，且RelLift95均为正。"
+      ],
+      "insight": "该协议强调最差条件与可重复性，提示平均提升不可靠；PRISM的成功归因于失败面路由与编辑模式约束，说明结构化搜索优于随机修改。适用于无重训预算、需可靠提升的工具代理场景。",
+      "experiment": "对比PRISM与仅提示词优化器，在固定基准上记录平均留出提升与最差条件提升，观察PRISM是否在不牺牲最差条件时获得更高平均提升。",
+      "caveat": "仅基于摘要，未读全文。性能数据为作者报告，PRISM机制细节未完整验证。适合固定模型、多轮工具代理设置，不保证其他架构。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:38.210762+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.05736v1"
+        }
+      ]
+    },
+    {
+      "id": "7c76a455bae5923b1ddd",
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.261",
+      "title": "anthropics/claude-code · v2.1.261",
+      "org": "Anthropic",
+      "kind": "release",
+      "published": "2026-09-04",
+      "themes": [
+        "context",
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "anthropics/claude-code",
+      "repo": "anthropics/claude-code",
+      "revision": "v2.1.261",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.261"
+        }
+      ],
+      "titleZh": "Claude Code 修复大量运行机制与远程控制问题",
+      "summary": "Claude Code v2.1.261 修复自动挂载、代理响应缺失、远程控制中的过时权限，改进流性能与缓存命中，更新词汇键，增加技能管理工具。",
+      "facts": [
+        "新增 bashOutputMaxChars 和 taskOutputMaxChars 设置，可提高命令输出内联上限至 128K 字符。",
+        "修复恢复会话时并行工具调用的钩子输出丢失，导致恢复请求改变的问题。",
+        "新增 /skill-doctor 显示已加载但未使用的技能及上下文成本，便于剪除。"
+      ],
+      "insight": "该版本强化了长输出处理、恢复准确性及远程权限状态一致性，适合需要精确调试和远程控制的开发场景，但高字符输出可能增加上下文负担。非原文结论。",
+      "experiment": "对比恢复含并行工具调用的会话：检查组件的钩子输出是否完整且请求是否一致；或增大 bashOutputMaxChars 至 128K 观察响应延迟。",
+      "caveat": "基于发布说明，不涉及代码级验证；未测试所有修复场景，尤其是特定代理或远程控制环境。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:18.073922+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "93601d11e4db33a82f52",
+      "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.260",
+      "title": "anthropics/claude-code · v2.1.260",
+      "org": "Anthropic",
+      "kind": "release",
+      "published": "2026-09-03",
+      "themes": [
+        "tools",
+        "evaluation",
+        "runtime"
+      ],
+      "sourceId": "anthropics/claude-code",
+      "repo": "anthropics/claude-code",
+      "revision": "v2.1.260",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.260"
+        }
+      ],
+      "titleZh": "Claude Code 更新：权限修复、缓存诊断与远程功能增强",
+      "summary": "本次更新修复多项权限绕过、缓存问题，新增全屏 diff 面板和文本版 /advisor，改进远程控制及网关兼容性。",
+      "facts": [
+        "修复括号路径的编辑/写入/读取权限规则被丢弃，导致只读文件夹可写的问题。",
+        "修复 Bash 权限检查自动批准含命令替换的 zsh 赋值（REPORTTIME 等），现要求批准。",
+        "改进 /cost 和状态行的 prompt_cache 字段，显示缓存未命中的可能原因。"
+      ],
+      "insight": "此更新聚焦权限执行与缓存可见性，harness 设计可效仿：路径规则需健壮解析与验证；对 shell 隐式行为的审核需详尽；提供缓存误命中诊断以优化工具定义稳定性。",
+      "experiment": "对照组分别用含括号路径的规则与含命令替换的 zsh 赋值命令测试权限拦截，记录是否被正确拒绝或批准。",
+      "caveat": "基于发布说明，未验证所有修复的有效性；部分平台特定修复可能不适用于其他环境。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:18.050495+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "6f76b5f16f754ea8e324",
+      "url": "https://github.com/anthropics/skills/tree/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f",
+      "title": "anthropics/skills · 代码观察",
+      "org": "Anthropic",
+      "kind": "code",
+      "published": "2026-09-03",
+      "themes": [
+        "tools",
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "anthropics/skills",
+      "repo": "anthropics/skills",
+      "revision": "41bbe19d1a1a",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "Anthropic Skills 仓库：技能定义、示例与规范",
+      "summary": "Anthropic 发布 skills 仓库，含技能标准、示例及文档技能，声明可用于 Claude Code、Claude.ai 和 API，作为自定义技能参考。",
+      "facts": [
+        "技能是文件夹，含 SKILL.md 指令、脚本和资源，Claude 动态加载以提升专项任务表现。",
+        "仓库包含文档创建与编辑技能（docx、pdf、pptx、xlsx），支撑 Claude 文档功能，源码可获取但非开源。",
+        "SKILL.md 前端至少需 name 和 description 两字段，正文为 Claude 遵循的指令与示例。"
+      ],
+      "insight": "技能标准化为 agent 提供模块化可复用能力，但运行效果依赖模型解释，需在目标环境验证，不能仅凭示例判断适应性。",
+      "experiment": "对比使用自定义技能与无技能执行同一文档生成任务，测量输出格式合规率及人工修正次数，各运行 10 次取均值。",
+      "caveat": "README 声明仅供演示教育，实际 Claude 行为可能不同；commit 仅列标题，不证明实现细节。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:24.116927+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "a2c6fec948adf8eca7df",
+      "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.66",
+      "title": "langchain-ai/deepagents · deepagents-code==0.1.66",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-09-03",
+      "themes": [
+        "orchestration",
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "deepagents-code==0.1.66",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.66"
+        }
+      ],
+      "titleZh": "deepagents-code 0.1.66：fork默认、工作区绑定与追踪改进",
+      "summary": "该版本默认通用子代理为fork模式，按提供商默认Auto分类器，支持绑定对话到已记录工作区，改进shell审批并减少追踪开销，修复工作目录绑定等问题。",
+      "facts": [
+        "默认通用子代理为fork模式（#6024）。",
+        "为shell审批显示绑定工作区，修复请求时工作目录绑定（#5968）。",
+        "QuickJS中间件追踪省略输入以减少开销（#6015）。"
+      ],
+      "insight": "fork模式默认化可能简化隔离但增加资源消耗，工作区绑定显示提升审批透明度；追踪省略输入可减少开销但可能降低调试能力，适用于对性能敏感的生产环境。",
+      "experiment": "对比开启/关闭fork默认模式，在并行任务下测量响应时间和上下文隔离错误率；同时测量追踪输入省略前后追踪开销及问题定位时长。",
+      "caveat": "基于发布说明，未验证实现效果；fork模式适用于通用子代理，但专业子代理可能仍需要其他模式。",
+      "relevance": 85,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:17.258394+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "9a03e971d95a1f1468f1",
+      "url": "https://github.com/langchain-ai/deepagents/releases/tag/langchain-quickjs%3D%3D0.3.6",
+      "title": "langchain-ai/deepagents · langchain-quickjs==0.3.6",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-09-03",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "langchain-ai/deepagents",
+      "repo": "langchain-ai/deepagents",
+      "revision": "langchain-quickjs==0.3.6",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/deepagents/releases/tag/langchain-quickjs%3D%3D0.3.6"
+        }
+      ],
+      "titleZh": "QuickJS安全与性能更新：快照HMAC校验与中间件追踪裁剪",
+      "summary": "langchain-quickjs 0.3.6 为快照字节添加 HMAC 校验，增强安全性；通过省略中间件追踪输入提升 QuickJS 性能。",
+      "facts": [
+        "为 QuickJS 快照字节添加 HMAC 校验（commit 749b386）。",
+        "通过省略中间件追踪输入来提升 QuickJS 性能（commit 673844d）。",
+        "langchain-quickjs 0.3.6 版本发布。"
+      ],
+      "insight": "HMAC 校验防止快照被篡改，适合多租户或共享缓存场景，但会增加开销。中间件追踪降级可能牺牲可观测性，需在性能与调试间权衡（非原文结论）。",
+      "experiment": "对比启用/禁用 HMAC 校验时快照加载耗时与安全性；对比追踪中间件输入有无时运行延迟和调试成功率。",
+      "caveat": "证据仅基于提交记录与发布说明；性能改进未提供具体数值，HMAC 实现细节未知。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:11.622157+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "9246ca1ebad8bac27e7b",
+      "url": "https://github.com/anthropics/claude-agent-sdk-python/releases/tag/v0.2.150",
+      "title": "anthropics/claude-agent-sdk-python · v0.2.150",
+      "org": "Anthropic",
+      "kind": "release",
+      "published": "2026-09-01",
+      "themes": [
+        "tools",
+        "evolution"
+      ],
+      "sourceId": "anthropics/claude-agent-sdk-python",
+      "repo": "anthropics/claude-agent-sdk-python",
+      "revision": "v0.2.150",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/anthropics/claude-agent-sdk-python/releases/tag/v0.2.150"
+        }
+      ],
+      "titleZh": "Claude Agent SDK Python v0.2.150 发布：更新内置CLI至2.1.257",
+      "summary": "该版本将内置Claude CLI升级至2.1.257，可能包含修复或改进。",
+      "facts": [
+        "Claude Agent SDK Python v0.2.150发布。",
+        "内置Claude CLI已更新至版本2.1.257。",
+        "可通过pip安装该版本。"
+      ],
+      "insight": "对构建harness的工程师而言，此更新可能修正工具协议或运行循环的bug，但未有具体细节，需测试现有功能是否受影响。",
+      "experiment": "对比新旧版本在相同对话任务中的工具调用成功率与错误率。",
+      "caveat": "只基于发布说明，未提供变更内容，无法判断具体影响。",
+      "relevance": 90,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:27.118366+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "b0cbef382238cdd5b88d",
+      "url": "https://openai.com/index/ai-native-company-workflows",
+      "title": "How AI-native companies turn workflows into operating capability",
+      "org": "OpenAI",
+      "kind": "article",
+      "published": "2026-09-01",
+      "themes": [
+        "orchestration",
+        "tools"
+      ],
+      "sourceId": "openai-news",
+      "abstractOnly": false,
+      "excerptOnly": true,
+      "titleZh": "AI原生企业如何将工作流转化为运营能力",
+      "summary": "基于官方简介，文章讨论Basis、Clay和Exa Labs使用AI代理改善客户引导、账户管理和开发者集成，提炼企业可借鉴的经验。",
+      "facts": [
+        "Basis, Clay 和 Exa Labs 使用 AI 代理。",
+        "应用领域包括客户引导、账户管理和开发者集成。",
+        "文章面向企业领导者，总结应用经验。"
+      ],
+      "insight": "工程推断：从这些实践看，代理的价值在于将重复运营流程自动化，企业落地需结合自有工具与数据，评估代理在真实环境中的表现。",
+      "experiment": "对照实验：选一个运营环节，分别用传统方法与AI代理处理100个案例，比较耗时、成功率及客户满意度。",
+      "caveat": "证据边界：仅依据官方简介提炼，未含实现细节、性能数据或验证结果，不可作技术实证。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:24.795955+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://openai.com/index/ai-native-company-workflows"
+        }
+      ]
+    },
+    {
+      "id": "950926fcf62eba148f50",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.4",
+      "title": "langchain-ai/langgraph · sdk==0.4.4",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-08-27",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "langchain-ai/langgraph",
+      "repo": "langchain-ai/langgraph",
+      "revision": "sdk==0.4.4",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.4"
+        }
+      ],
+      "titleZh": "LangGraph SDK 0.4.4 支持线程流路由至LangSmith追踪",
+      "summary": "LangGraph SDK Python 0.4.4 发布，新增将线程流中的追踪路由到 LangSmith 的功能。",
+      "facts": [
+        "发布于 sdk==0.4.3 之后，包含多个变更。",
+        "新增功能：从线程流路由 LangSmith 追踪。",
+        "版本号 0.4.4，通过合并提交引入。"
+      ],
+      "insight": "该功能可能使开发者能在流式响应时关联追踪数据，便于调试生产环境中的线程执行，但具体机制需进一步验证。",
+      "experiment": "对比 0.4.3 与 0.4.4，在开启线程流时观察 LangSmith 追踪是否自动关联请求，记录追踪完整性。",
+      "caveat": "基于发布说明，未查看代码细节，功能实现方式未知。",
+      "relevance": 60,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:22.235796+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "e6b8ad21c90c2d180c17",
+      "url": "https://github.com/google/adk-python/releases/tag/v1.39.1",
+      "title": "google/adk-python · v1.39.1",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-08-27",
+      "themes": [
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "v1.39.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google/adk-python/releases/tag/v1.39.1"
+        }
+      ],
+      "titleZh": "ADK-Python v1.39.1：v1 兼容性与安全修复合集",
+      "summary": "Google ADK-Python 发布 v1.39.1 补丁，将多项 v1 迁移修复回移植，涵盖 A2A、工件存储、CLI 安全、MCP 配置、模型上下文缓存、插件、代码执行隔离等，均为 bug 修复。",
+      "facts": [
+        "CLI 现在对每个本地 API 服务器请求检查 Host 头（v1）。",
+        "集成仅向 Google API 端点发送 API 注册表凭据（v1）。",
+        "工件引用作用域、路径段验证及应用级文件工件存储移植至 v1。"
+      ],
+      "insight": "补丁集中收紧校验与凭据隔离，提示 v1 分支在会话、ID、路径与凭据边界上存在系统性风险，设计 Harness 时应默认实施源验证与最小凭据暴露。",
+      "experiment": "构造带伪造 Host 头及跨路径工件名的请求，分别记录修复前后是否被拒绝并监控错误率。",
+      "caveat": "仅依据变更日志，未验证实现效果；性能与安全性改进均未量化。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:23:55.310763+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "a676b1dd51c238d21261",
+      "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.16.0",
+      "title": "OpenHands/OpenHands · v1.16.0",
+      "org": "OpenHands",
+      "kind": "release",
+      "published": "2026-08-27",
+      "themes": [
+        "tools",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "All-Hands-AI/OpenHands",
+      "repo": "OpenHands/OpenHands",
+      "revision": "v1.16.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.16.0"
+        }
+      ],
+      "titleZh": "OpenHands v1.16.0 发布：技能白名单与前端扩展",
+      "summary": "OpenHands v1.16.0 发布，新增技能显式许可名单、Canvas 前端扩展、LLM 切换等，多项修复与文档更新。",
+      "facts": [
+        "用显式许可名单替换全量技能目录",
+        "Canvas Extensions 前端落地，支持页面加载、侧边栏与自定义",
+        "修复禁用技能未传给 agent_context 的后端排除问题"
+      ],
+      "insight": "技能白名单机制可能影响 agent 工具可用性，harness 设计需考虑动态技能过滤与上下文传递的一致性；Canvas 扩展暗示前端可定制化趋势需预留接口。",
+      "experiment": "对比新旧版本技能调用成功率与工具选择延迟，观察白名单对任务完成率影响。",
+      "caveat": "基于发布说明，未验证实现细节与性能表现，具体影响需实测。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:41.819093+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "2190af585be2464840fd",
+      "url": "https://github.com/google/adk-python/releases/tag/v2.8.0",
+      "title": "google/adk-python · v2.8.0",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-08-26",
+      "themes": [
+        "runtime",
+        "evaluation",
+        "tools"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "v2.8.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google/adk-python/releases/tag/v2.8.0"
+        }
+      ],
+      "titleZh": "ADK Python 2.8.0：遥测扩展、Live 增强及多项安全修复",
+      "summary": "发布 v2.8.0，引入实验性遥测（按调用/工作流 token 数）、Live 模式回调与交互状态、Model Armor 插件、自定义评估指标，并修复注入与重复执行等问题。",
+      "facts": [
+        "新增实验性遥测，按代理调用及工作流记录 token 花费，默认关闭，需 ADK_EXPERIMENTAL_TELEMETRY=true 开启。",
+        "Live 模式新增视频模态支持、前后模型回调、工具直接发消息及 interaction_status 事件。",
+        "修复包括阻止 YAML 反序列化、防范 SQL 注入与提示注入、剔除继发工具输出中的指令风险。"
+      ],
+      "insight": "实验遥测便于追踪 token 与推理次数，适合成本审计。Live 模式扩展了交互控制，但需权衡状态管理。大量修复反映对安全与状态一致性重视。",
+      "experiment": "配置 ADK_EXPERIMENTAL_TELEMETRY=true 运行多工具工作流，对比开关前后的 token 数与调用次数，检查跨度属性。",
+      "caveat": "基于发布说明，未经代码验证；遥测为实验性且默认关闭，可能未覆盖所有路径。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:24:02.087298+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "4750887a5139a9f47309",
+      "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.0.1",
+      "title": "modelcontextprotocol/python-sdk · v2.0.1",
+      "org": "MCP",
+      "kind": "release",
+      "published": "2026-08-26",
+      "themes": [
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "modelcontextprotocol/python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "revision": "v2.0.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.0.1"
+        }
+      ],
+      "titleZh": "MCP Python SDK v2.0.1 回移植 FastMCP 导入警告",
+      "summary": "针对 2.0.x 分支，将 FastMCP 导入警告相关修复回移植到 v2.0.1，以帮助用户避免错误并引导迁移。",
+      "facts": [
+        "v2.0.1 是 FastMCP 导入警告的一次性回移植，针对 2.0.x。",
+        "警告发布因许多用户遇到该错误并在其他仓库提 issue。",
+        "建议用户固定 mcp<2 或升级到 2.0.1+。"
+      ],
+      "insight": "对库维护者，向后移植警告可减少用户困惑，但需配合清晰的迁移文档和版本策略。",
+      "experiment": "对比 v2.0.0 与 v2.0.1 在导入 fastmcp 时输出警告和引导信息，记录用户错误率。",
+      "caveat": "此版本仅为警告回移植，不包含新功能；需阅读迁移指南以完成升级。",
+      "relevance": 60,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:13:00.290113+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "1f28b2de0ae2dab45908",
+      "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.1.0",
+      "title": "modelcontextprotocol/python-sdk · v2.1.0",
+      "org": "MCP",
+      "kind": "release",
+      "published": "2026-08-24",
+      "themes": [
+        "runtime"
+      ],
+      "sourceId": "modelcontextprotocol/python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "revision": "v2.1.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.1.0"
+        }
+      ],
+      "titleZh": "Python MCP SDK v2.1.0：错误脱敏与结构化输出变更",
+      "summary": "MCP Python SDK v2.1.0 改进了错误处理，隐藏异常细节，并调整内容块返回，默认不声明结构化输出。",
+      "facts": [
+        "处理器异常只记录ERROR，客户端仅见'Error executing tool'而不含异常文本。",
+        "工具注释返回TextContent等类型时不再声明outputSchema或structuredContent，除非设structured_output=True。",
+        "请求体4MiB限制扩展到SSE和OAuth端点。"
+      ],
+      "insight": "此版本强化客户端安全与协议合规，但依赖SDK隐藏异常可能降低调试效率。考虑自定义错误类型显式传递。",
+      "experiment": "对比SDK v2.0与v2.1，触发工具异常，观察客户端报错信息内容差异。",
+      "caveat": "基于发布说明，无实际代码验证。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:23:52.141946+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "a738a4f7b86337b9640f",
+      "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.15.0",
+      "title": "OpenHands/OpenHands · v1.15.0",
+      "org": "OpenHands",
+      "kind": "release",
+      "published": "2026-08-21",
+      "themes": [
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "All-Hands-AI/OpenHands",
+      "repo": "OpenHands/OpenHands",
+      "revision": "v1.15.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.15.0"
+        }
+      ],
+      "titleZh": "OpenHands v1.15.0 发布：界面与稳定性改进",
+      "summary": "此版本聚焦前端体验与修复，引入入门引导、概览面板、LLM 连接管理 UI，并修复若干流式与工具调用问题。",
+      "facts": [
+        "新增侧边栏入门清单及工作区路径显示，提升导航透明度。",
+        "增加 LLM 提供商连接 UI，支持本地 agent-server 管理。",
+        "修复非原生具身调用流式 XML 增量的一致性问题。",
+        "优化 StreamingDeltaEvent 批处理，以加速模型响应。"
+      ],
+      "insight": "工作依赖这些 UI 组件的集成，但其具体实施仍需验证；建议仅以本更新作为接口变化的参考，而实施细节滞后。",
+      "experiment": "对照前后版本 v1.15.0，运行包含流式事件的应用，测量事件处理延迟及 UI 响应帧率。",
+      "caveat": "证据仅限于官方发布说明，未验证实际钩子行为或性能声称。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:50.331769+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "72c1c65856af7651e1ca",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.3",
+      "title": "langchain-ai/langgraph · sdk==0.4.3",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-08-19",
+      "themes": [
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "langchain-ai/langgraph",
+      "repo": "langchain-ai/langgraph",
+      "revision": "sdk==0.4.3",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/langgraph/releases/tag/sdk%3D%3D0.4.3"
+        }
+      ],
+      "titleZh": "LangGraph SDK 0.4.3 发布：解密结果与调度更新",
+      "summary": "LangGraph SDK 0.4.3 发布，主要新增解密替换结果功能，并支持通过 update(end_time=None) 清除 cron 结束时间。",
+      "facts": [
+        "SDK Python 0.4.3 新增解密替换结果功能（#8598）。",
+        "支持通过 update(end_time=None) 清除 cron 的 end_time（#8334）。",
+        "多个依赖更新，包括 websockets 升级至 16.0（#8253）。"
+      ],
+      "insight": "解密结果功能可能用于安全地处理加密的持久化状态，提示 harness 应关注敏感数据的解密时机与权限控制。清除 cron 结束时间表明调度器需要动态调整任务周期，harness 中任务调度设计应考虑运行时配置变更。",
+      "experiment": "搭建双 agent：一个含加密状态，一个不含，对比启用解密结果前后的消息吞吐与延迟；同时动态更新 cron end_time，观察任务停启是否符合预期。",
+      "caveat": "仅基于发布说明和 commit 标题，无法验证具体实现细节及性能数据。",
+      "relevance": 80,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:14.854546+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "dc009bcabb091ae6098c",
+      "url": "https://github.com/google/adk-python/releases/tag/v1.39.0",
+      "title": "google/adk-python · v1.39.0",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-08-17",
+      "themes": [
+        "runtime",
+        "context"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "v1.39.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google/adk-python/releases/tag/v1.39.0"
+        }
+      ],
+      "titleZh": "ADK Python 1.39.0：实时会话恢复与音频流结束支持",
+      "summary": "此版本为实时会话引入 RunConfig 会话恢复处理，支持音频流结束事件，并修复实时代理运行结束后的后台工具任务清理与会话初始化事件验证问题。",
+      "facts": [
+        "在打开实时会话时，使用 RunConfig.session_resumption.handle 来控制会话恢复。",
+        "为实时输入添加了 audio_stream_end 事件支持。",
+        "修复了实时代理运行结束时停止后台工具任务的问题，并验证 v1 会话初始化事件。"
+      ],
+      "insight": "实时会话恢复策略的规范化可避免上下文错乱；后台工具任务的及时终止有助于控制资源泄漏。适用于长时间运行的实时 agent harness，需配合完善的会话状态管理。",
+      "experiment": "在两个实时会话中恢复同一对话，分别启用与禁用 session_resumption，对比上下文一致性与工具调用成功率。",
+      "caveat": "仅依据发布说明与提交标题，无法确认实现细节或验证效果。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:14.883337+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "7ac2ce458271723bdedb",
+      "url": "https://github.com/google/adk-python/releases/tag/v2.7.1",
+      "title": "google/adk-python · v2.7.1",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-08-17",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "v2.7.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google/adk-python/releases/tag/v2.7.1"
+        }
+      ],
+      "titleZh": "google/adk-python v2.7.1：依赖与会话事件校验修复",
+      "summary": "该版本修复了OpenTelemetry依赖上限并增加会话初始化事件校验。",
+      "facts": [
+        "修复：将OpenTelemetry依赖上限恢复至1.42.1。",
+        "修复：验证会话初始化事件，涉及issue #5290。"
+      ],
+      "insight": "依赖上限恢复表明OpenTelemetry新版本可能引入不兼容，需锁定版本以确保追踪稳定性；会话事件校验反映对会话状态正确性的关注，提示会话初始化流程可能存在边缘情况。",
+      "experiment": "对比v2.7.0与v2.7.1在会话创建时的事件序列，观察校验日志差异。",
+      "caveat": "仅基于发布说明，未验证实际实现；修复影响范围未详述。",
+      "relevance": 75,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:06.955235+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "3023bb5371ab7054d5db",
+      "url": "https://github.com/google/adk-python/releases/tag/v2.7.0",
+      "title": "google/adk-python · v2.7.0",
+      "org": "Google",
+      "kind": "release",
+      "published": "2026-08-13",
+      "themes": [
+        "tools",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "google/adk-python",
+      "repo": "google/adk-python",
+      "revision": "v2.7.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/google/adk-python/releases/tag/v2.7.0"
+        }
+      ],
+      "titleZh": "google/adk-python v2.7.0：模型能力上报与工具媒体返回",
+      "summary": "ADK v2.7.0 为正确性发布：模型自声明能力决定输出schema与工具配对；工具函数响应可直接返回媒体；对话历史保留思维签名等服务端内容；新增Jinja2指令模板。",
+      "facts": [
+        "模型能力上报系统：由模型声明是否支持输出schema与工具配对，替代从模型ID推断。",
+        "工具函数响应可携带图片等媒体直接返回模型，支持Gemini、Anthropic等。",
+        "对话历史保留Gemini所需的思维签名、服务端工具调用部分及并行函数调用结果。"
+      ],
+      "insight": "此版本引入模型能力协商机制，使harness需区分模型实际能力与静态ID推断，对多模型编排有普遍参考价值；媒体返回支持要求工具协议扩展MIME类型字段，设计时需考虑后向兼容。",
+      "experiment": "对比同一多工具任务在旧版（ID推断）与新版的工具调用正确率；观察输出schema与工具配对的成功率及潜在能力误判次数。",
+      "caveat": "仅依据发布说明，性能与兼容性未实测；部分修复（如并发、流式）依赖提交消息，未经源代码验证。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:24:19.559193+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "1fb370af98ed7943449e",
+      "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.13.0",
+      "title": "OpenHands/OpenHands · v1.13.0",
+      "org": "OpenHands",
+      "kind": "release",
+      "published": "2026-08-13",
+      "themes": [
+        "runtime",
+        "tools"
+      ],
+      "sourceId": "All-Hands-AI/OpenHands",
+      "repo": "OpenHands/OpenHands",
+      "revision": "v1.13.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/OpenHands/OpenHands/releases/tag/v1.13.0"
+        }
+      ],
+      "titleZh": "OpenHands v1.13.0 发布：新增上下文窗口计量与手动压缩",
+      "summary": "OpenHands v1.13.0 引入上下文窗口使用计量、手动压缩，以及客户端会话归档和 Markdown 工件预览。",
+      "facts": [
+        "新增客户端会话归档功能（PR 16100）。",
+        "新增聊天内 Markdown 工件预览（PR 16185）。",
+        "新增上下文窗口使用计量、使用量抽屉和手动压缩（PR 16311）。"
+      ],
+      "insight": "为长会话提供手动压缩入口和用量可视化，可辅助用户在 token 溢出前主动干预，减少上下文丢失风险，适用于交互型 harness 的会话管理。",
+      "experiment": "对比启用手动压缩前后，长任务中上下文溢出错误次数与用户手动触发压缩频率，观察 token 消耗与任务成功率。",
+      "caveat": "基于发布说明，功能实现细节与效果未经代码验证。",
+      "relevance": 60,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:13:07.356128+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "b2cfa7950ab72a14205b",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/1.2.11",
+      "title": "langchain-ai/langgraph · 1.2.11",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-08-11",
+      "themes": [
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "langchain-ai/langgraph",
+      "repo": "langchain-ai/langgraph",
+      "revision": "1.2.11",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/langgraph/releases/tag/1.2.11"
+        }
+      ],
+      "titleZh": "LangGraph 1.2.11：add_node 新增 trace_policy 选项",
+      "summary": "LangGraph 1.2.11 发布，为 add_node 暴露 trace_policy，便于节点级追踪控制。",
+      "facts": [
+        "在 add_node 中新增 trace_policy 功能。",
+        "checkpoint 包修复 delta 通道历史中 plain-value 种的写入收集问题。",
+        "postgres 与 sqlite checkpoint 包运行一致性测试套件。"
+      ],
+      "insight": "trace_policy 可能允许按节点精细控制追踪，适用于不同节点不同可观测性需求的场景，但需结合上下文配置。",
+      "experiment": "配置不同 trace_policy 运行相同图，对比追踪数据量与开销差异。",
+      "caveat": "仅基于 changelog 与提交标题，未验证实现细节；trace_policy 具体行为需查文档。",
+      "relevance": 72,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:20.103912+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "b5b452d355a57b333666",
+      "url": "https://github.com/langchain-ai/langgraph/releases/tag/checkpoint%3D%3D4.2.0",
+      "title": "langchain-ai/langgraph · checkpoint==4.2.0",
+      "org": "LangChain",
+      "kind": "release",
+      "published": "2026-08-07",
+      "themes": [
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "langchain-ai/langgraph",
+      "repo": "langchain-ai/langgraph",
+      "revision": "checkpoint==4.2.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/langchain-ai/langgraph/releases/tag/checkpoint%3D%3D4.2.0"
+        }
+      ],
+      "titleZh": "langgraph checkpoint 4.2.0：delta通道种子值写入修复与过期行跳过选项",
+      "summary": "checkpoint 4.2.0 发布，修复 delta 通道历史中种子值写入收集，并新增 opt-in omit_expired 参数以在读取时跳过过期行。",
+      "facts": [
+        "修复 delta 通道历史中 plain-value 种子处收集写操作的问题。",
+        "新增 opt-in omit_expired 参数，用于读取时跳过过期行。",
+        "将 langsmith 从 0.8.0 升级到 0.8.18。"
+      ],
+      "insight": "delta 通道的种子值写入修复可提高状态恢复准确性，避免部分历史丢失。omit_expired 选项适合清理过期检查点，减少存储读取负担，但需确认过期判定逻辑符合应用需求。",
+      "experiment": "对比修复前后在含种子值写入的 delta 通道场景下的状态恢复差异，观察写入序列与恢复一致性；并测 omit_expired 开启前后读取耗时及过期行过滤准确率。",
+      "caveat": "依据提交记录提炼，未验证代码实现；具体修复效果需测试。",
+      "relevance": 65,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:29:30.024137+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "0884fb8f61b23163cd52",
+      "url": "https://www.langchain.com/blog/deep-agents-v0-7",
+      "title": "Deep Agents v0.7",
+      "org": "LangChain",
+      "kind": "article",
+      "published": "2026-07-29",
+      "themes": [
+        "runtime",
+        "context",
+        "tools"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "Deep Agents v0.7：精简基础输入并提高可配置性",
+      "summary": "Deep Agents v0.7通过移除系统提示、精简工具描述和默认禁用待办事项中间件，使基础输入令牌减少65%，同时保持性能稳定，并支持覆盖内置中间件。",
+      "facts": [
+        "v0.7移除默认系统提示，内置工具描述减少43%，TodoListMiddleware默认关闭（#4859, #5009, #4929）。",
+        "默认代理单次回合基础输入令牌从约6k降至约2k，降幅达65%。",
+        "在四种模型上测试，gpt-5.6-luna令牌和成本分别降34%和15%，奖励升4%。"
+      ],
+      "insight": "精简默认提示和工具描述可降低成本而不损失性能，但需根据任务复杂度谨慎启用待办列表；覆盖内置中间件比剥离更易维护。适用于令牌敏感场景，但需自定义评估。",
+      "experiment": "对照实验：在固定任务集上，分别启用和禁用TodoListMiddleware，比较任务完成率、每任务成本及多步任务错误率。",
+      "caveat": "性能结论基于自建评估套件，非第三方基准；奖励置信区间包含零，需独立验证。",
+      "relevance": 92,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:24.129013+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.langchain.com/blog/deep-agents-v0-7"
+        }
+      ]
+    },
+    {
+      "id": "45ef223002d8e05b8094",
+      "url": "https://github.com/SWE-agent/SWE-agent/tree/3ea751c087f32b16e039a2233dd6eefecef325d5",
+      "title": "SWE-agent/SWE-agent · 代码观察",
+      "org": "SWE-agent",
+      "kind": "code",
+      "published": "2026-07-16",
+      "themes": [
+        "orchestration",
+        "tools"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "3ea751c087f3",
+      "evidence": [
+        {
+          "label": "README.md",
+          "url": "https://github.com/SWE-agent/SWE-agent/blob/3ea751c087f32b16e039a2233dd6eefecef325d5/README.md"
+        }
+      ],
+      "snapshot": true,
+      "titleZh": "SWE-agent 维护期：主推 mini-SWE-agent 并修复多项 bug",
+      "summary": "SWE-agent 现处于维护阶段，开发重心转向更简单的 mini-SWE-agent；近期提交多为修复与文档更新，涉及评估、图像处理与 URL 解析。",
+      "facts": [
+        "README 称 mini-SWE-agent 已取代 SWE-agent，性能相当但更简单，推荐优先使用。",
+        "README 称 SWE-agent 在 SWE-bench 上为开源项目 SOTA，支持工具修复真实 GitHub 问题。",
+        "近期提交修复了多模态子集映射、URL .git 后缀、Content-Type 参数等问题。"
+      ],
+      "insight": "若构建 agent harness，可借鉴 SWE-agent 的单 YAML 配置与接口设计，但需注意较复杂代码维护成本高，简化可能是更优路线。",
+      "experiment": "对比 mini-SWE-agent 与原版在 100 个 SWE-bench 实例上的解决率与运行时间，观察性能与资源差异。",
+      "caveat": "仅为本仓库 README 与提交标题，未验证实际性能声明；SOTA 等说法可能基于特定模型与日期。",
+      "relevance": 90,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:41.719239+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "dbb73861c49fe0a838d9",
+      "url": "https://arxiv.org/abs/2609.00006",
+      "title": "Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents -- A Source-Code Study of Eleven Systems",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-07-15",
+      "themes": [
+        "context",
+        "orchestration"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "编码代理的Harness工程：11个系统的源码解剖、架构与演化",
+      "summary": "论文对11个生产编码harness及一个元harness进行源码剖析，定义其架构并识别13个横切观察和29个设计模式。",
+      "facts": [
+        "论文对11个生产编码harnesses进行源码解剖，包括Claude Code、Codex CLI等，并对比元harness Omnigent。",
+        "研究发现无代理运行时导入通用代理框架，且无系统使用向量嵌入检索代码，均采用手写异步循环和确定性检索。",
+        "比较发现技能（skills）在采用上领先MCP（9/11对8/11），ACP出现在六个系统中并引入新角色harness宿主。"
+      ],
+      "insight": "作者观点：编码harness转向平台。工程上，开发者可参考论文的组件划分与模式目录设计agent运行时；但摘要未提供具体实现细节，需谨慎依赖。",
+      "experiment": "建议对一个小型编码代理，对比使用通用agent框架与手写异步循环的性能和可控性，观察吞吐、失败率和调试时间。",
+      "caveat": "此提炼仅基于论文摘要，未审全文；源码研究范畴限于所列系统，结论可能不适用于其他实现。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:28.209775+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2609.00006"
+        }
+      ]
+    },
+    {
+      "id": "c06c7f9c2f8e03e73dc7",
+      "url": "https://arxiv.org/abs/2606.13643",
+      "title": "Recursive Agent Harnesses",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-06-11",
+      "themes": [
+        "orchestration",
+        "runtime",
+        "evolution"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "递归智能体装备：代码优先的模型递归扩展研究",
+      "summary": "论文提出递归智能体装备（RAH），父代理生成脚本并行生成子代理，用于细粒度任务，在长上下文推理中提升编码代理基线。",
+      "facts": [
+        "RAH框架中父代理生成并运行脚本，并行派生子代理处理细粒度工作负载，并用结构化函数调用处理小子任务。",
+        "固定GPT-5骨干下，RAH在Oolong-Synthetic任务上将Codex基线从71.75%提升至81.36%。",
+        "使用Claude Sonnet 4.5作为更强骨干时，RAH在同一基准上达到89.77%的准确率。"
+      ],
+      "insight": "RAH将递归单位扩展为完整代理装备，可能更适合需要工具和规划的复杂任务；其收益随模型能力提升而增加，提示harness设计需与骨干模型强度匹配。",
+      "experiment": "在相同长上下文任务上对比RAH与固定模型递归，控制工具集和脚本策略，测量任务解决率与子代理调用开销。",
+      "caveat": "仅依据摘要；实验规模较小且依赖特定基线，未见代码或完整结果验证。",
+      "relevance": 82,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:39.221499+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2606.13643"
+        }
+      ]
+    },
+    {
+      "id": "56d6e4c61e9846b3e1ca",
+      "url": "https://arxiv.org/abs/2604.25850",
+      "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+      "org": "Research",
+      "kind": "paper",
+      "published": "2026-04-28",
+      "themes": [
+        "orchestration",
+        "evaluation",
+        "evolution"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "观测驱动的编码Agent harness自动演化方法",
+      "summary": "提出AHE闭环，通过三类可观测性使harness编辑成为可证伪合约，实现自主演化，十轮迭代超越人工设计harness。",
+      "facts": [
+        "AHE通过组件、经验与决策三类可观测性，将每次harness编辑变为可证伪合约。",
+        "作者报告十轮AHE使Terminal-Bench 2 pass@1从69.7%提升至77.0%，超过Codex-CLI。",
+        "消融显示增益主要来自工具、中间件和长期记忆，而非系统提示词。"
+      ],
+      "insight": "可观测性设计是harness自动化的关键：组件文件级表示、经验分层压缩、编辑附带可验证预测，使演化可控。适用于轨迹冗长、效果难归因的复杂agent harness调优。",
+      "experiment": "对比AHE与随机编辑或仅调系统提示的harness演化，在Terminal-Bench 2上各迭代相同次数，记录pass@1及编辑归因准确率。",
+      "caveat": "基于摘要，未验证代码或复现；性能数据为作者报告，泛化性需独立确认。",
+      "relevance": 95,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:23:49.094611+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2604.25850"
+        }
+      ]
+    },
+    {
+      "id": "8537165d23c701b725b2",
+      "url": "https://www.anthropic.com/engineering/managed-agents",
+      "title": "Scaling Managed Agents: Decoupling the brain from the hands",
+      "org": "Anthropic",
+      "kind": "article",
+      "published": "2026-04-08",
+      "themes": [
+        "context",
+        "runtime"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "托管代理扩展：解耦大脑与双手",
+      "summary": "Anthropic 将代理组件解耦为会话、运行器和沙盒，分别提供接口，实现独立扩展与故障恢复。此举降低延迟，支持多种前端和资源环境。",
+      "facts": [
+        "Anthropic 将代理组件解耦，运行器不再驻留容器，容器通过工具调用提供，失败时可重建。",
+        "解耦后，p50 首次令牌时间降低约 60%，p95 降低超过 90%。",
+        "会话日志存储在外部，运行器可通过接口获取事件，从上次中断处恢复。"
+      ],
+      "insight": "解耦设计可降低首令牌延迟并提升抗故障能力，但引入额外的服务边界和接口开销，适合长时任务和百毫秒级延迟敏感场景，需权衡复杂度。",
+      "experiment": "对比单容器与解耦架构在同等工作任务下的稳定性：分别运行 100 次长任务，记录失败率、平均首次令牌时间及恢复时长。",
+      "caveat": "性能数据主要基于 p50/p95 延迟，未提供完整基准或适用范围；仅凭本文描述无法验证实现细节。",
+      "relevance": 85,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:24.277617+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.anthropic.com/engineering/managed-agents"
+        }
+      ]
+    },
+    {
+      "id": "9fa759b72385cdecdf59",
+      "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+      "title": "Harness design for long-running application development",
+      "org": "Anthropic",
+      "kind": "article",
+      "published": "2026-03-24",
+      "themes": [
+        "orchestration",
+        "evaluation",
+        "runtime"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "长时应用开发的Harness设计：生成器-评估器架构",
+      "summary": "本文介绍一种受GAN启发的多代理架构（规划器、生成器、评估器），用于提升Claude在长时间自主编码和前端设计中的表现，通过外部评估和迭代反馈突破自我评估的局限。",
+      "facts": [
+        "使用Opus 4.5，完整harness运行6小时成本200美元，单代理20分钟成本9美元，质量差异明显。",
+        "评估器通过Playwright MCP点击运行中应用，按合同标准测试并报告bug，如发现删除键条件错误。",
+        "生成器与评估器在每次迭代前协商sprint合同，明确\"完成\"的定义，通过文件传递通信。"
+      ],
+      "insight": "对于主观或复杂任务，外部评估器比自我评估更易校准严苛性，但需迭代调优提示词。该架构适用于有可验证反馈的场景，成本高需权衡。",
+      "experiment": "比较单代理与多代理（含评估器）在相同提示下生成应用，记录功能完整性、bug数量，评估器反馈前后质量差异。",
+      "caveat": "结果基于作者经验声明，无第三方验证。成本与时间消耗大，不适用于简单任务。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:36.270314+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps"
+        }
+      ]
+    },
+    {
+      "id": "ba87025b9a3dbbc9c8d2",
+      "url": "https://www.langchain.com/blog/the-anatomy-of-an-agent-harness",
+      "title": "The Anatomy of an Agent Harness",
+      "org": "LangChain",
+      "kind": "article",
+      "published": "2026-03-10",
+      "themes": [
+        "context",
+        "orchestration",
+        "runtime"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "智能体支架剖析：核心组件与设计推导",
+      "summary": "文章定义智能体支架为模型之外的代码与配置，从模型局限推导出其必要组件，并探讨未来趋势。",
+      "facts": [
+        "支架包括系统提示、工具、沙箱、编排逻辑及钩子等，是模型以外的全部内容。",
+        "文件系统是基础原语，为智能体提供工作区、持久状态及协作表面。",
+        "Ralph Loop 通过钩子在干净上下文中重注入原始提示，迫使模型继续长时程任务。",
+        "智能体性能随上下文填充而下降，即上下文腐烂，支架需通过压缩等策略管理。"
+      ],
+      "insight": "支架工程可显著提升模型效用，即使模型能力增强，支架仍必不可少；优化支架是提升智能体性能的关键。",
+      "experiment": "对照两组相同模型，分别使用默认支架与定制支架执行相同编码任务，比较任务完成率与错误率。",
+      "caveat": "文章基于作者观点，未提及其他支架实现或实证对比，且为未来日期，可能存在虚构。",
+      "relevance": 95,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:35.156170+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.langchain.com/blog/the-anatomy-of-an-agent-harness"
+        }
+      ]
+    },
+    {
+      "id": "2e12fd56c15d47088661",
+      "url": "https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering",
+      "title": "Improving Deep Agents with harness engineering",
+      "org": "LangChain",
+      "kind": "article",
+      "published": "2026-02-17",
+      "themes": [
+        "runtime",
+        "evaluation",
+        "tools"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "通过约束工程设计提升深度智能体的性能",
+      "summary": "LangChain 团队通过约束工程将编码智能体在 Terminal Bench 2.0 上的得分从 52.8% 提升至 66.5%，核心方法包括自我验证、环境上下文注入和循环检测。",
+      "facts": [
+        "编码智能体在 Terminal Bench 2.0 上得分从 52.8% 提升至 66.5%，仅改变约束，模型固定为 gpt-5.2-codex。",
+        "使用 Trace Analyzer Skill 自动分析错误，流程为获取跟踪、并行错误分析、聚合反馈并修改约束。",
+        "系统提示中加入规划、构建、验证、修复的步骤，并强调测试以防止过早停止。"
+      ],
+      "insight": "约束工程可有效弥补模型弱点，但需结合可观测性工具。改进可能依赖特定模型和基准，跨模型迁移需重新迭代。",
+      "experiment": "使用同一模型在两个相似任务集上运行，一组加入预退出验证中间件，另一组不加，比较完成率和测试通过率。",
+      "caveat": "基于博客，未验证实验可复现性；部分改进可能过拟合 Terminal Bench。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:45.708213+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering"
+        }
+      ]
+    },
+    {
+      "id": "f6b93302265de7767e51",
+      "url": "https://openai.com/index/harness-engineering",
+      "title": "Harness engineering: leveraging Codex in an agent-first world",
+      "org": "OpenAI",
+      "kind": "article",
+      "published": "2026-02-11",
+      "themes": [
+        "context",
+        "runtime",
+        "orchestration"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "extraction": "official-page-extraction",
+      "titleZh": "Agent生成代码库：OpenAI用Codex构建产品的工程实践",
+      "summary": "OpenAI团队用Codex代理开发产品，人类不写代码，通过构建环境、反馈循环和结构化知识库，实现高吞吐与架构约束。",
+      "facts": [
+        "仓库由三个工程师驱动Codex，5个月内约百万行代码、1500个PR，平均每人日3.5个PR，团队后增至7人。",
+        "AGENTS.md仅为简短目录，详细知识存于结构化docs目录，作为系统记录，由lint和CI强制更新。",
+        "代码库架构强制分层依赖，使用自定义linter和结构测试执行约束，并嵌入错误消息以指导代理修复。",
+        "代理可端到端驱动新功能，包括复现bug、录视频、实现修复、开PR、响应反馈、合并，仅在需判断时升级给人类。"
+      ],
+      "insight": "此模式依赖高度定制环境与持续投入，但可能牺牲创新与可移植性，适用长生命周期产品，早期架构约束可防退化；人类转至系统设计与规则编码，提升规模效率。",
+      "experiment": "对照组用固定AGENTS.md+大型文档，实验组用简要入口+分层docs，记录任务完成时间、错误率及文档漂移度。",
+      "caveat": "基于博客文章，无独立验证；性能数据为作者报告，环境特定于OpenAI，可能不普遍适用。",
+      "relevance": 95,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:11.665017+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://openai.com/index/harness-engineering"
+        }
+      ]
+    },
+    {
+      "id": "6c790a16de0afd2b5fe6",
+      "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "title": "Demystifying evals for AI agents",
+      "org": "Anthropic",
+      "kind": "article",
+      "published": "2026-01-09",
+      "themes": [
+        "evaluation"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "AI代理评估揭秘：设计与实践指南",
+      "summary": "文章介绍AI代理（agent）评估的结构、类型及实践方法，强调评估对代理开发的重要性，并提供编码、对话、研究及计算机使用代理的评估技巧与指标。",
+      "facts": [
+        "评估(evals)用于在开发期间测试AI系统，包括输入、环境、评分逻辑等组件。",
+        "通过运行多次试验，结合代码型、模型型及人工评分器，可更可靠地衡量代理性能。",
+        "无评估的团队在代理扩展时容易陷入被动调试循环，无法区分真实回归与噪声。"
+      ],
+      "insight": "本文为代理评估提供了实用框架，包括任务收集、评分器选择及指标（如pass@k）应用。工程上可借此构建评估体系，但需注意评估设计依赖具体代理类型，不可完全照搬。",
+      "experiment": "设计20-50个真实失败任务，对比有无评估时的代理回归检测效率，观察缺陷发现速度与修复周期。",
+      "caveat": "文章基于Anthropic经验，提及的基准结果仅能反映文档宣称，未经验证。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:46.344837+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+        }
+      ]
+    },
+    {
+      "id": "7f7a70a6764975801eea",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "title": "Effective harnesses for long-running agents",
+      "org": "Anthropic",
+      "kind": "article",
+      "published": "2025-11-26",
+      "themes": [
+        "orchestration",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "长时运行AI代理的工程化解决方案",
+      "summary": "Anthropic提出双Agent方案，通过初始化代理建立环境与特性清单，编码代理逐项实现并记录进度，解决长时任务跨上下文窗口的连续性问题。",
+      "facts": [
+        "长时代理需在多个上下文窗口间工作，每新会话无先前记忆，核心挑战是跨会话连续。",
+        "失败模式包括一次性尝试过多、早期声明完成、未充分测试、遗留未文档化状态。",
+        "解决方案用初始化代理创建特性清单JSON和init.sh，编码代理每次专注一个特性并提交git。"
+      ],
+      "insight": "该方法可能适用于任务可分解且需环境稳定的软件工程场景；需强提示及工具支持，通用性存疑，或可推广至其他长时任务。非原文结论，须验证。",
+      "experiment": "对照组A：单代理持续压缩上下文；B：双代理加特性清单与git提交。记录完成特性数、bug率、会话数，观察B是否更优。",
+      "caveat": "基于Anthropic内部实验，特定于Claude及Web应用；未验证于其他模型或任务，性能数据未公开。",
+      "relevance": 88,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:54.786957+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+        }
+      ]
+    },
+    {
+      "id": "126e07cf0d684e0333f9",
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "title": "Effective context engineering for AI agents",
+      "org": "Anthropic",
+      "kind": "article",
+      "published": "2025-09-29",
+      "themes": [
+        "context",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "titleZh": "面向Agent的上下文工程：策略与分析",
+      "summary": "本文提出上下文工程概念，强调为Agent动态策划最小高信号token集，应对注意力稀缺，并介绍压缩、笔记、子代理等长任务方案。",
+      "facts": [
+        "Anthropic将上下文工程视为提示工程的演进，关注推理期间所有token的策划与维护。",
+        "研究表明，随着上下文token数增加，模型准确回忆信息的能力下降，即上下文腐烂。",
+        "Claude Code采用混合策略，预载CLAUDE.md文件，并用工具按需检索，避免加载全部数据。"
+      ],
+      "insight": "Agent系统设计应转向动态上下文管理，采用轻量引用加工具按需加载，权衡预取与探索延迟，以应对上下文窗口限制。",
+      "experiment": "实现两种Agent：A预载所有数据，B用工具检索；在千文档多步任务中比较成功率和token消耗。",
+      "caveat": "来源为Anthropic官方博客，无基准数据；部分技术建议可能针对Claude模型，未必通用。",
+      "relevance": 95,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:13:02.547770+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+        }
+      ]
+    },
+    {
+      "id": "8fd17778465f3ed1b29d",
+      "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0",
+      "title": "SWE-agent/SWE-agent · v1.1.0",
+      "org": "SWE-agent",
+      "kind": "release",
+      "published": "2025-05-22",
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "v1.1.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0"
+        }
+      ],
+      "titleZh": "SWE-agent v1.1.0发布，引入训练轨迹数据与兼容性修复",
+      "summary": "该版本主要新增SWE-smith训练轨迹生成项目，支持多语言与多模态评估，并包含多处修复与配置改进。",
+      "facts": [
+        "SWE-smith项目可生成数万条训练轨迹，作者报告其LM模型SWE-agent-LM-32b在SWE-bench verified上取得开源权重最佳成绩。",
+        "v1.1.0中轨迹数据格式有破坏性变更：messages字段被query替换。",
+        "新增多语言评估、SWE-smith及多模态基础支持，并加入quick-stats工具。"
+      ],
+      "insight": "训练数据规模扩大与模型性能提升表明，轨迹数据质量对代理性能关键，但性能数据依赖benchmark，实际部署需验证泛化性。",
+      "experiment": "使用自建任务集对比SWE-agent-LM-32b与固定轨迹数据训练模型，观察任务完成率与轨迹效率差异。",
+      "caveat": "所述SotA成绩仅基于摘要，未验证完整评测细节；轨迹数据生成方法未描述。",
+      "relevance": 70,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:23:55.300571+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "7fb34faddce93d2237e5",
+      "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.0.1",
+      "title": "SWE-agent/SWE-agent · v1.0.1",
+      "org": "SWE-agent",
+      "kind": "release",
+      "published": "2025-02-28",
+      "themes": [
+        "tools",
+        "runtime",
+        "evaluation"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "v1.0.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.0.1"
+        }
+      ],
+      "titleZh": "SWE-agent 1.0.1 发布：提升本地模型兼容性并修复多处问题",
+      "summary": "SWE-agent v1.0.1 主要修复本地模型兼容性问题，改进文档，并调整默认配置为 anthropic_filemap，同时宣布在 SWE-Bench full 上获得 SOTA。",
+      "facts": [
+        "SWE-agent 团队宣布在完整 SWE-Bench 基准（约2000个GitHub问题）上取得 SOTA。",
+        "此版本主要修复与本地模型的兼容性，并扩展了相关文档。",
+        "默认配置从非 anthropic_filemap 改为 anthropic_filemap。"
+      ],
+      "insight": "适配本地模型需处理成本查询、输入token限制等细节；本次多项修复针对此类问题，暗示本地模型部署是常见且易出错的场景。工程上应预留参数覆盖和超时设置以增强兼容性。",
+      "experiment": "使用本地模型（如Llama3）分别运行v1.0.0和v1.0.1，对比成功率和错误日志，观察成本计算和token限制相关错误是否减少。",
+      "caveat": "摘要仅基于发布说明，SOTA声明未验证，且具体改进指标未提供；修复细节基于PR标题，未经代码验证。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:12:56.064984+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "39feb0b5522b612ee784",
+      "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.0.0",
+      "title": "SWE-agent/SWE-agent · v1.0.0",
+      "org": "SWE-agent",
+      "kind": "release",
+      "published": "2025-02-13",
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "v1.0.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v1.0.0"
+        }
+      ],
+      "titleZh": "SWE-agent 1.0发布：并行执行与灵活配置",
+      "summary": "SWE-agent 1.0引入大规模并行代码执行、云端运行、可配置重试机制、灵活工具定义及新的CLI和轨迹检查器。",
+      "facts": [
+        "SWE-agent 1.0集成SWE-ReX，支持快速大规模并行代码执行。",
+        "支持通过modal/AWS等运行SWE-ReX，实现本地运行代理但云端执行代码。",
+        "新增可配置重试机制，可尝试多种配置并自动选择最优结果。"
+      ],
+      "insight": "工具定义和配置可覆盖可能提升代理可扩展性，但并行执行需依赖外部服务，工程上需评估网络延迟和成本。",
+      "experiment": "对照组用旧版单线程，实验组用SWE-ReX并行执行，观察相同任务集的总耗时与成功率。",
+      "caveat": "仅依据发布说明，未验证实现细节及性能提升。",
+      "relevance": 80,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:13:03.670643+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "632d45fc0ade42c2e5f1",
+      "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v0.7.0",
+      "title": "SWE-agent/SWE-agent · v0.7.0",
+      "org": "SWE-agent",
+      "kind": "release",
+      "published": "2024-09-25",
+      "themes": [
+        "tools",
+        "runtime"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "v0.7.0",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v0.7.0"
+        }
+      ],
+      "titleZh": "SWE-agent 0.7.0: 进攻性安全技术领先与交互式代理工具",
+      "summary": "SWE-agent v0.7.0 引入 EnIGMA 项目，在 NYU CTF 数据集上提升3.3倍，新增交互式代理工具和摘要器，并扩展模型与修复问题。",
+      "facts": [
+        "SWE-agent EnIGMA 在 NYU CTF 挑战数据集上达到最先进,较旧代理提升3.3倍。",
+        "新增交互式代理工具（含gdb）与摘要器以处理长输出。",
+        "支持Claude 3.5 Sonnet、deepseek-coder、gpt-4o-mini及Groq模型。"
+      ],
+      "insight": "交互式代理工具（如gdb）使代理能动态调试，可能提升安全任务性能；摘要器可缓解上下文长度限制，适用于长流程工程。",
+      "experiment": "在相同CTF任务上，对比启用与禁用交互式工具（gdb）时的成功率或任务完成时间。",
+      "caveat": "基于发布说明，未验证实际代码或基准测试细节；性能声明仅限NYU CTF数据集。",
+      "relevance": 75,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:13:12.508238+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "3e8960a4b7564ed855d6",
+      "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v0.6.1",
+      "title": "SWE-agent/SWE-agent · v0.6.1",
+      "org": "SWE-agent",
+      "kind": "release",
+      "published": "2024-06-20",
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "SWE-agent/SWE-agent",
+      "repo": "SWE-agent/SWE-agent",
+      "revision": "v0.6.1",
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/SWE-agent/SWE-agent/releases/tag/v0.6.1"
+        }
+      ],
+      "titleZh": "SWE-agent v0.6.1补丁修复编辑与克隆问题",
+      "summary": "SWE-agent发布v0.6.1补丁，修复因速度提升引入的多个问题，解决已有lint错误导致无法编辑，并改进超时与日志配置。",
+      "facts": [
+        "v0.6.1修复因v0.7.0速度改进引入的多个问题。",
+        "修复了文件存在lint错误时SWE-agent无法编辑的问题。",
+        "新增配置项：显示日志时间、SWEEnv的LONG_TIMEOUT，以及始终写日志到traj目录。"
+      ],
+      "insight": "lint重试循环可能因预先存在的错误死锁，需区分已有错误与编辑引入错误；超时和日志参数可配置化有助于调试代理环境。",
+      "experiment": "对比修复前后，在含预处理lint错误的代码库上运行agent，观察能否成功编辑及编辑次数。",
+      "caveat": "变更基于发布说明，未验证实际实现效果。",
+      "relevance": 70,
+      "significance": "normal",
+      "addedAt": "2026-09-09T05:24:01.925794+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "54b1ddaabf07edcee470",
+      "url": "https://arxiv.org/abs/2405.15793",
+      "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+      "org": "SWE-agent",
+      "kind": "paper",
+      "published": "2024-05-06",
+      "themes": [
+        "orchestration",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "curated",
+      "curated": true,
+      "abstractOnly": true,
+      "titleZh": "SWE-agent：专用智能体-计算机接口提升软件工程自动化",
+      "summary": "论文基于SWE-bench等，断言定制界面显著增强LM代理在软件任务中的表现，pass@1为12.5%和87.7%，但仅基于摘要。",
+      "facts": [
+        "论文提出SWE-agent系统，通过定制agent-computer interface增强LM代理自主软件工程能力。",
+        "在SWE-bench和HumanEvalFix上，声称pass@1分别达12.5%和87.7%，超此前非交互方法。",
+        "论文仅摘要可用，正文未验证，实际实现需查代码库。"
+      ],
+      "insight": "针对harness设计，应关注工具接口的交互性，但结果依赖模型和任务难度，需在自有环境复测",
+      "experiment": "对照实验：在SWE-bench子集比较定制工具界面与普通bash工具的解决率及历史长度",
+      "caveat": "只基于摘要，无实验细节；宣称性能未在独立环境验证",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:12:27.640024+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "原始论文摘要",
+          "url": "https://arxiv.org/abs/2405.15793"
+        }
+      ]
+    },
+    {
+      "id": "8c698247d726e3de94a7",
+      "url": "https://www.langchain.com/blog/langsmith-llm-gateway-runtime-controls-for-production-agents",
+      "title": "LangSmith LLM Gateway: Runtime Controls for Agents",
+      "org": "LangChain",
+      "kind": "article",
+      "published": null,
+      "themes": [
+        "runtime",
+        "tools",
+        "evaluation"
+      ],
+      "sourceId": "langchain-blog",
+      "titleZh": "LangSmith LLM网关：为生产环境代理提供运行时控制",
+      "summary": "LangSmith推出LLM网关公测版，集中管理代理对模型调用的治理，包括成本上限、速率限制、模型回退和敏感数据脱敏，支持多级控制。",
+      "facts": [
+        "LLM网关提供组织、工作区、API密钥、用户四级成本与速率限制，超限时返回402错误。",
+        "支持通过自定义请求头实现客户级策略，无需客户特定API密钥，集中管理多租户限制。",
+        "网关事件作为元数据记录在LangSmith追踪中，便于监控控制行为与调试。"
+      ],
+      "insight": "网关将策略从代理代码中解耦，允许统一治理。但需权衡：集中控制可能增加单点故障风险，且依赖网关的可靠性；适用条件为多代理、多提供者或合规敏感场景。",
+      "experiment": "对比两组成员：一组代理内嵌控制，另一组使用网关。观测指标：策略更新平均时间、封顶响应延迟、误配置次数及用户投诉率。",
+      "caveat": "仅依据官方文档，未验证实现；性能与效果未经独立测试。",
+      "relevance": 90,
+      "significance": "high",
+      "addedAt": "2026-09-09T05:29:37.621601+00:00",
+      "summaryMethod": "deepseek",
+      "model": "deepseek-v4-flash",
+      "evidence": [
+        {
+          "label": "官方原文",
+          "url": "https://www.langchain.com/blog/langsmith-llm-gateway-runtime-controls-for-production-agents"
+        }
+      ]
+    }
+  ],
+  "digests": [
+    {
+      "headline": "harness安全与演化：理论框架与实证风险并进",
+      "synthesis": "研究所涉方向多元：EvoSafeHarness与安全演化理论关注框架内安全约束，后者强调生成与认证分离的停滞风险；供应链实证揭示了三类可确认缺陷。工程实践中，ADK回调语义统一，OpenHands调整CI触发，均侧重运行时行为可预测性。综合判断，当前harness研究侧重安全与可靠性工程，但理论提出的认证分离问题在实证中未见直接回应。",
+      "watch": [
+        "check harness中的回调短路与参数绑定设计是否采用truthy语义及灵活位置参数，需验证旧有非None检查是否被统一",
+        "观察Agent Canvas迁移至main后执行E2E的可靠性，以及issue正文结构推断相比标签的误判率"
+      ],
+      "items": [
+        "f65d361725bab48ae7a2",
+        "6e080da15a62da8fafea",
+        "110f447ef0ae682fb488",
+        "1cd66ce61c828b5413d3",
+        "21b3158e922c582ce824"
+      ],
+      "date": "2026-09-09",
+      "generatedAt": "2026-09-09T05:29:43.101679+00:00",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai/openai-agents-python",
+      "name": "openai/openai-agents-python",
+      "org": "OpenAI",
+      "url": "https://github.com/openai/openai-agents-python",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:48.129009+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:48.129042+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "anthropics/claude-agent-sdk-python",
+      "name": "anthropics/claude-agent-sdk-python",
+      "org": "Anthropic",
+      "url": "https://github.com/anthropics/claude-agent-sdk-python",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:48.226050+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:48.226087+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "openai/codex",
+      "name": "openai/codex",
+      "org": "OpenAI",
+      "url": "https://github.com/openai/codex",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:50.822122+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:50.822149+00:00",
+      "discovered": 3
+    },
+    {
+      "id": "deepseek-ai/deepseek-harness",
+      "name": "deepseek-ai/deepseek-harness",
+      "org": "DeepSeek",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "type": "github",
+      "branch": "master",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:50.030243+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:50.030272+00:00",
+      "discovered": 1
+    },
+    {
+      "id": "anthropics/skills",
+      "name": "anthropics/skills",
+      "org": "Anthropic",
+      "url": "https://github.com/anthropics/skills",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:53.633574+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:53.633650+00:00",
+      "discovered": 1
+    },
+    {
+      "id": "google-gemini/gemini-cli",
+      "name": "google-gemini/gemini-cli",
+      "org": "Google",
+      "url": "https://github.com/google-gemini/gemini-cli",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:55.436885+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:55.436921+00:00",
+      "discovered": 2
+    },
+    {
+      "id": "google/adk-python",
+      "name": "google/adk-python",
+      "org": "Google",
+      "url": "https://github.com/google/adk-python",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:56.925978+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:56.926225+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "anthropics/claude-code",
+      "name": "anthropics/claude-code",
+      "org": "Anthropic",
+      "url": "https://github.com/anthropics/claude-code",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:55.419879+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:55.419927+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "langchain-ai/deepagents",
+      "name": "langchain-ai/deepagents",
+      "org": "LangChain",
+      "url": "https://github.com/langchain-ai/deepagents",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:28:57.824387+00:00",
+      "lastSuccessAt": "2026-09-09T05:28:57.824424+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "langchain-ai/langgraph",
+      "name": "langchain-ai/langgraph",
+      "org": "LangChain",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:00.827215+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:00.827286+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "SWE-agent/SWE-agent",
+      "name": "SWE-agent/SWE-agent",
+      "org": "SWE-agent",
+      "url": "https://github.com/SWE-agent/SWE-agent",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:01.928502+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:01.928541+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "openai-news",
+      "name": "OpenAI · 官方文章",
+      "org": "OpenAI",
+      "url": "https://openai.com/news/rss.xml",
+      "type": "rss",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:06.652863+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:06.652894+00:00",
+      "discovered": 40
+    },
+    {
+      "id": "All-Hands-AI/OpenHands",
+      "name": "OpenHands/OpenHands",
+      "org": "OpenHands",
+      "url": "https://github.com/OpenHands/OpenHands",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:01.727705+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:01.727733+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "anthropic-engineering",
+      "name": "Anthropic · Engineering",
+      "org": "Anthropic",
+      "url": "https://www.anthropic.com/engineering",
+      "type": "index",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:04.832505+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:04.832534+00:00",
+      "discovered": 20
+    },
+    {
+      "id": "langchain-blog",
+      "name": "LangChain · Blog",
+      "org": "LangChain",
+      "url": "https://www.langchain.com/blog",
+      "type": "index",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:04.652464+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:04.652493+00:00",
+      "discovered": 14
+    },
+    {
+      "id": "modelcontextprotocol/python-sdk",
+      "name": "modelcontextprotocol/python-sdk",
+      "org": "MCP",
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "type": "github",
+      "branch": "main",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:02.634609+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:02.634659+00:00",
+      "discovered": 6
+    },
+    {
+      "id": "arxiv-harness",
+      "name": "arXiv · Harness 论文",
+      "org": "Research",
+      "url": "https://export.arxiv.org/api/query?search_query=ti:harness+OR+ti:%22agent+computer%22+OR+ti:%22context+engineering%22+OR+ti:%22coding+agents%22&sortBy=submittedDate&sortOrder=descending&max_results=30",
+      "type": "arxiv",
+      "ok": true,
+      "checkedAt": "2026-09-09T05:29:04.858983+00:00",
+      "lastSuccessAt": "2026-09-09T05:29:04.859008+00:00",
+      "discovered": 29
+    }
+  ],
+  "runs": [
+    {
+      "startedAt": "2026-09-09T05:12:05.759449+00:00",
+      "finishedAt": "2026-09-09T05:13:14.956369+00:00",
+      "newItems": 34,
+      "attempted": 45,
+      "errors": 10,
+      "pending": 123,
+      "usage": {
+        "prompt_tokens": 91746,
+        "completion_tokens": 10831
+      }
+    },
+    {
+      "startedAt": "2026-09-09T05:23:15.746620+00:00",
+      "finishedAt": "2026-09-09T05:24:27.127366+00:00",
+      "newItems": 26,
+      "attempted": 34,
+      "errors": 13,
+      "pending": 108,
+      "usage": {
+        "prompt_tokens": 72910,
+        "completion_tokens": 9776
+      }
+    },
+    {
+      "startedAt": "2026-09-09T05:28:41.967402+00:00",
+      "finishedAt": "2026-09-09T05:29:43.125012+00:00",
+      "newItems": 15,
+      "attempted": 24,
+      "errors": 2,
+      "pending": 88,
+      "usage": {
+        "prompt_tokens": 36851,
+        "completion_tokens": 6768
+      }
+    }
+  ]
+}
