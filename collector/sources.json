@@ -54,6 +54,7 @@
       "repo": "openai/codex",
       "org": "OpenAI",
       "themes": [
+        "context",
         "runtime",
         "orchestration"
       ],
@@ -479,6 +480,27 @@
       "themes": [
         "evolution",
         "evaluation"
+      ]
+    }
+  ],
+  "watches": [
+    {
+      "id": "codex-context-lifecycle",
+      "name": "Codex · Token budget 与上下文窗口切换",
+      "repo": "openai/codex",
+      "org": "OpenAI",
+      "branch": "main",
+      "themes": [
+        "context",
+        "orchestration"
+      ],
+      "paths": [
+        "codex-rs/core/src/compact_token_budget.rs",
+        "codex-rs/core/src/tasks/compact.rs",
+        "codex-rs/core/src/tools/handlers/new_context_window_spec.rs",
+        "codex-rs/core/src/tools/handlers/new_context_window.rs",
+        "codex-rs/core/src/tools/handlers/get_context_remaining.rs",
+        "codex-rs/core/src/context/token_budget_context.rs"
       ]
     }
   ]

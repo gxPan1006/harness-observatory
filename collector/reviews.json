@@ -1,0 +1,21 @@
+{
+  "7fea17c781950cf40ef2": {
+    "titleZh": "Codex：预算感知与主动换窗，传统压缩仍并存",
+    "summary": "TokenBudget 路径跳过摘要、直接换上下文窗口；模型可主动调用 new_context。旧压缩路径仍保留，并非所有 Codex 都取消压缩。",
+    "facts": [
+      "TokenBudget 开启时，压缩任务走无摘要换窗路径；未开启时仍可走本地或远程压缩。",
+      "new_context 请求换上下文窗口而不重置环境；get_context_remaining 查询窗口剩余 token。",
+      "窗口元数据包含首个、当前、前一窗口 ID；无摘要换窗仍复用压缩钩子与生命周期事件。"
+    ],
+    "insight": "工程推断：应把窗口工作区与可检索历史、交接笔记分开设计。不在当前窗口不等于记录被删除，恢复质量取决于检索和交接。",
+    "experiment": "固定模型与长任务，对照摘要压缩和主动换窗，测约束遗漏、历史证据找回率、重复操作、完成率与 token 成本。",
+    "caveat": "仅核对固定版本的六个源码文件；未验证默认启用范围、History/Notes 全链路或实际效果。",
+    "themes": [
+      "context",
+      "orchestration",
+      "tools"
+    ],
+    "relevance": 98,
+    "significance": "high"
+  }
+}
